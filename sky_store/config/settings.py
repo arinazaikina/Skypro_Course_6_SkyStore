@@ -1,9 +1,9 @@
-import configparser
 import os
 from pathlib import Path
 
-config = configparser.ConfigParser()
-config.read(filenames='config/config.ini')
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -63,11 +63,11 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config.get(section='DB', option='NAME'),
-        'USER': config.get(section='DB', option='USER'),
-        'PASSWORD': config.get(section='DB', option='PASSWORD'),
-        'HOST': config.get(section='DB', option='HOST'),
-        'PORT': config.get(section='DB', option='PORT'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
@@ -97,7 +97,5 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
