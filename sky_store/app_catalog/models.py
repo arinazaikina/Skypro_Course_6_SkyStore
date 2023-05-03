@@ -39,8 +39,12 @@ class Category(models.Model):
 
     @classmethod
     def get_all_categories(cls) -> models.QuerySet:
-        """Возвращает все категории"""
-        return Category.objects.all()
+        """
+        Возвращает все категории товаров
+
+        :return: QuerySet c категориями товаров
+        """
+        return cls.objects.all()
 
 
 class Product(models.Model):
@@ -75,3 +79,34 @@ class Product(models.Model):
         :return: QuerySet c последними товарами
         """
         return cls.objects.order_by('-created_at')[:count]
+
+
+class CompanyContact(models.Model):
+    """
+    Модель, описывающая контакты компании
+    """
+    country = models.CharField(max_length=100, verbose_name='Страна')
+    city = models.CharField(max_length=100, verbose_name='Город')
+    address = models.CharField(max_length=255, verbose_name='Адрес')
+    postcode = models.CharField(max_length=20, verbose_name='Индекс', **NULLABLE)
+    phone = models.CharField(max_length=20, verbose_name='Телефон', **NULLABLE)
+    email = models.EmailField(max_length=255, verbose_name='Электронная почта', **NULLABLE)
+    tin = models.CharField(max_length=100, verbose_name='ИНН', **NULLABLE)
+
+    class Meta:
+        db_table = 'company_contact'
+        verbose_name = 'Контакт компании'
+        verbose_name_plural = 'Контакты компании'
+
+    def __str__(self):
+        return f"{self.country}, {self.city}, {self.address}"
+
+    @classmethod
+    def get_company_contacts(cls, count: int) -> models.QuerySet:
+        """
+        Возвращает все адреса компании
+
+        :param count: Количество контактов, которые нужно получить
+        :return: QuerySet c адресами компании
+        """
+        return cls.objects.all()[:count]

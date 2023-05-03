@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic import FormView
 
 from .forms import FeedbackForm
-from .models import Product, Category
+from .models import Product, Category, CompanyContact
 from .services import FeedbackServices
 
 
@@ -33,6 +33,12 @@ class ContactsView(FormView):
         FeedbackServices.save_feedback(name=name, phone=phone, message=message)
         self.request.session['form_submitted'] = True
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        contacts = CompanyContact.get_company_contacts(count=1)
+        context['contacts'] = contacts
+        return context
 
 
 class SuccessFeedbackView(View):
