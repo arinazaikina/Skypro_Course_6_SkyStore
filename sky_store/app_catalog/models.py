@@ -37,6 +37,11 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_all_categories(cls) -> models.QuerySet:
+        """Возвращает все категории"""
+        return Category.objects.all()
+
 
 class Product(models.Model):
     """
@@ -60,3 +65,13 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.category} - {self.price}"
+
+    @classmethod
+    def get_last_products(cls, count: int) -> models.QuerySet:
+        """
+        Возвращает последние товары в количестве 'count'.
+
+        :param count: Количество товаров, которые нужно получить
+        :return: QuerySet c последними товарами
+        """
+        return cls.objects.order_by('-created_at')[:count]

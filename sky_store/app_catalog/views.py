@@ -5,12 +5,19 @@ from django.views import View
 from django.views.generic import FormView
 
 from .forms import FeedbackForm
+from .models import Product, Category
 from .services import FeedbackServices
 
 
 class HomePageView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        return render(request=request, template_name='app_catalog/home.html')
+        categories = Category.get_all_categories()
+        products = Product.get_last_products(count=4)
+        context = {
+            'categories': categories,
+            'products': products
+        }
+        return render(request=request, template_name='app_catalog/home.html', context=context)
 
 
 class ContactsView(FormView):
