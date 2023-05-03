@@ -1,0 +1,172 @@
+[
+{
+    "model": "app_catalog.category",
+    "pk": 9,
+    "fields": {
+        "name": "Рассылки",
+        "description": null
+    }
+},
+{
+    "model": "app_catalog.category",
+    "pk": 10,
+    "fields": {
+        "name": "Телеграм бот",
+        "description": null
+    }
+},
+{
+    "model": "app_catalog.category",
+    "pk": 11,
+    "fields": {
+        "name": "Полезные утилиты",
+        "description": null
+    }
+},
+{
+    "model": "app_catalog.category",
+    "pk": 12,
+    "fields": {
+        "name": "Веб-приложения",
+        "description": null
+    }
+},
+{
+    "model": "app_catalog.category",
+    "pk": 13,
+    "fields": {
+        "name": "Микросервисы",
+        "description": null
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 11,
+    "fields": {
+        "name": "Микросервис для оптимизации изображений-3",
+        "description": "- Установка на сервер\n- Поддержка\n- Получение обновлений\n- Неограниченная лицензия",
+        "image": "products/default.png",
+        "category": 10,
+        "price": "140.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 12,
+    "fields": {
+        "name": "Удобный сервис рассылок-6",
+        "description": "- Установка на сервер\n- Совместимость с мобильными устройствами",
+        "image": "products/default.png",
+        "category": 12,
+        "price": "75.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 13,
+    "fields": {
+        "name": "Простой конструктор веб-приложений-1",
+        "description": "- Неограниченная лицензия\n- Получение обновлений\n- Поддержка",
+        "image": "products/default.png",
+        "category": 11,
+        "price": "140.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 14,
+    "fields": {
+        "name": "Мощный телеграм-бот-6",
+        "description": "- Неограниченная лицензия\n- Установка на сервер\n- Совместимость с мобильными устройствами\n- Получение обновлений",
+        "image": "products/default.png",
+        "category": 9,
+        "price": "120.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 15,
+    "fields": {
+        "name": "Простой конструктор веб-приложений-6",
+        "description": "- Поддержка\n- Установка на сервер",
+        "image": "products/default.png",
+        "category": 12,
+        "price": "250.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 16,
+    "fields": {
+        "name": "Микросервис для оптимизации изображений-3",
+        "description": "- Установка на сервер\n- Получение обновлений\n- Неограниченная лицензия",
+        "image": "products/default.png",
+        "category": 12,
+        "price": "190.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 17,
+    "fields": {
+        "name": "Полезный генератор паролей-6",
+        "description": "- Поддержка\n- Неограниченная лицензия",
+        "image": "products/default.png",
+        "category": 12,
+        "price": "75.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 18,
+    "fields": {
+        "name": "Полезный генератор паролей-5",
+        "description": "- Установка на сервер\n- Получение обновлений\n- Поддержка\n- Совместимость с мобильными устройствами",
+        "image": "products/default.png",
+        "category": 11,
+        "price": "120.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 19,
+    "fields": {
+        "name": "Микросервис для оптимизации изображений-6",
+        "description": "- Получение обновлений\n- Неограниченная лицензия",
+        "image": "products/default.png",
+        "category": 13,
+        "price": "190.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 20,
+    "fields": {
+        "name": "Удобный сервис рассылок-3",
+        "description": "- Получение обновлений\n- Неограниченная лицензия\n- Совместимость с мобильными устройствами\n- Установка на сервер",
+        "image": "products/default.png",
+        "category": 12,
+        "price": "75.00",
+        "created_at": "2023-05-03T00:05:10.941Z",
+        "updated_at": "2023-05-03T00:05:10.941Z"
+    }
+}
+]
