@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView
@@ -21,7 +21,7 @@ class HomePageView(View):
 
 
 class ProductListView(View):
-    def get(self, request: HttpRequest, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         category_id = request.GET.get(key='category', default=None)
         categories = Category.get_all_categories()
 
@@ -36,6 +36,13 @@ class ProductListView(View):
         }
 
         return render(request=request, template_name='app_catalog/product_list.html', context=context)
+
+
+class ProductDetailView(View):
+    def get(self, request: HttpRequest, product_id: int, *args, **kwargs) -> HttpResponse:
+        product = get_object_or_404(klass=Product, id=product_id)
+        context = {'product': product}
+        return render(request=request, template_name='app_catalog/product_detail.html', context=context)
 
 
 class ContactsView(FormView):

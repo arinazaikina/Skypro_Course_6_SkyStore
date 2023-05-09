@@ -4,7 +4,7 @@
 			<img src="{{ product.image.url }}">
 		</div>
 		<div class="item-details">
-			<h4><a href="#">{{ product.name }}</a></h4>
+			<h4><a href="{% url 'app_catalog:product_detail' product_id=product.pk %}">{{ product.name }}</a></h4>
 			<p>{{ product.description|truncatechars:100 }}</p>
 			<div class="item-bottom-details d-flex justify-content-between">
 				<div class="item-price">
