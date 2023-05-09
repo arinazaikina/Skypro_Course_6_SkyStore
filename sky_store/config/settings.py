@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.contrib import messages
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -52,6 +53,14 @@ TEMPLATES = [
         },
     },
 ]
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert alert-secondary',
+    messages.INFO: 'alert alert-info',
+    messages.SUCCESS: 'alert alert-success',
+    messages.WARNING: 'alert alert-warning',
+    messages.ERROR: 'alert alert-danger',
+}
 
 WSGI_APPLICATION = 'config.wsgi.application'
 

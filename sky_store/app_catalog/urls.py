@@ -5,6 +5,7 @@ from .views import (
     HomePageView,
     ProductListView,
     ProductDetailView,
+    CreateProduct,
     ContactsView,
     SuccessFeedbackView
 )
@@ -15,6 +16,7 @@ urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('products/', ProductListView.as_view(), name='product_list'),
     path('product/<int:product_id>/', ProductDetailView.as_view(), name='product_detail'),
+    path('product/create/', CreateProduct.as_view(), name='create_product'),
     path('contacts/', ContactsView.as_view(), name='contacts'),
     path('contacts/success-feedback', SuccessFeedbackView.as_view(), name='success_feedback')
 ]
