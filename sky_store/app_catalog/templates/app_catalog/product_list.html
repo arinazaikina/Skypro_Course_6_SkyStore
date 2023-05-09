@@ -1,15 +1,14 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}
-	Главная
+	Каталог
 {% endblock %}
 
 {% block content %}
 	<section class="main-content">
 		<div class="container">
 			<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-				<h1 class="display-4">Skystore</h1>
-				<p class="lead">Покоряй склоны с уверенностью и стилем!</p>
+				<h1 class="display-4">{{ category.name|title }}</h1>
 			</div>
 			{% if products %}
 				<div class="row">

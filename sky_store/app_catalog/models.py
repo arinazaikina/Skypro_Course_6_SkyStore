@@ -80,6 +80,24 @@ class Product(models.Model):
         """
         return cls.objects.order_by('-created_at')[:count]
 
+    @classmethod
+    def get_products_by_category(cls, category_id: int) -> models.QuerySet:
+        """
+        Возвращает товары определённой категории.
+        :param category_id: Идентификатор категории товаров
+        :return: QuerySet c товарами выбранной категории
+        """
+        return cls.objects.filter(category_id=category_id)
+
+    @classmethod
+    def get_all_products(cls) -> models.QuerySet:
+        """
+        Возвращает все товары
+
+        :return: QuerySet c товарами
+        """
+        return cls.objects.all()
+
 
 class CompanyContact(models.Model):
     """

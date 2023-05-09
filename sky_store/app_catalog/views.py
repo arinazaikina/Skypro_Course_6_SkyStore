@@ -20,6 +20,24 @@ class HomePageView(View):
         return render(request=request, template_name='app_catalog/home.html', context=context)
 
 
+class ProductListView(View):
+    def get(self, request: HttpRequest, *args, **kwargs):
+        category_id = request.GET.get(key='category', default=None)
+        categories = Category.get_all_categories()
+
+        if category_id:
+            products = Product.get_products_by_category(category_id=category_id)
+        else:
+            products = Product.get_all_products()
+
+        context = {
+            'categories': categories,
+            'products': products
+        }
+
+        return render(request=request, template_name='app_catalog/product_list.html', context=context)
+
+
 class ContactsView(FormView):
     form_class = FeedbackForm
     template_name = 'app_catalog/contacts.html'
