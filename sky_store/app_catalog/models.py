@@ -1,3 +1,5 @@
+from typing import Union
+
 from django.db import models
 
 NULLABLE = {'blank': True, 'null': True}
@@ -46,6 +48,16 @@ class Category(models.Model):
         """
         return cls.objects.all()
 
+    @classmethod
+    def get_category_by_id(cls, category_id: int) -> 'Category':
+        """
+        Возвращает категорию по её идентификатору.
+
+        :param category_id: Идентификатор категории, которую нужно получить.
+        :return: Объект категории с указанным идентификатором.
+        """
+        return cls.objects.get(id=category_id)
+
 
 class Product(models.Model):
     """
@@ -79,6 +91,51 @@ class Product(models.Model):
         :return: QuerySet c последними товарами
         """
         return cls.objects.order_by('-created_at')[:count]
+
+    @classmethod
+    def get_products_by_category(cls, category_id: int) -> models.QuerySet:
+        """
+        Возвращает товары определённой категории.
+        :param category_id: Идентификатор категории товаров
+        :return: QuerySet c товарами выбранной категории
+        """
+        return cls.objects.filter(category_id=category_id)
+
+    @classmethod
+    def get_all_products(cls) -> models.QuerySet:
+        """
+        Возвращает все товары
+
+        :return: QuerySet c товарами
+        """
+        return cls.objects.all()
+
+    @classmethod
+    def create_product(cls, name: str, description: str, category: Category, price: float,
+                       image: Union[str, models.ImageField] = None) -> 'Product':
+        """
+        Создает и сохраняет новый объект товара с заданными параметрами.
+
+        :param name: Название товара.
+        :param description: Описание товара.
+        :param category: Категория товара.
+        :param price: Цена товара.
+        :param image: Изображение товара (путь к файлу) или объект ImageField. Если изображение не указано,
+        будет использовано изображение по умолчанию.
+        :return: Созданный объект товара.
+        """
+        if not image:
+            image = 'products/default.png'
+
+        product = cls(
+            name=name,
+            description=description,
+            image=image,
+            category=category,
+            price=price
+        )
+        product.save()
+        return product
 
 
 class CompanyContact(models.Model):

@@ -1,15 +1,20 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}
-	Главная
+	Каталог
 {% endblock %}
 
 {% block content %}
 	<section class="main-content">
 		<div class="container">
 			<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-				<h1 class="display-4">SkyStore</h1>
-				<p class="lead">Покоряй склоны с уверенностью и стилем!</p>
+				<h1 class="display-4">
+					{% if category == 'Все' %}
+						Все товары
+					{% else %}
+						{{ category.name }}
+					{% endif %}
+				</h1>
 			</div>
 			{% if products %}
 				<div class="row">
@@ -17,6 +22,9 @@
 						{% include 'app_catalog/includes/item_card.html' %}
 					{% endfor %}
 				</div>
+
+				{% include 'app_catalog/includes/pagination.html' %}
+
 			{% else %}
 				<h3>Пока товаров нет</h3>
 			{% endif %}

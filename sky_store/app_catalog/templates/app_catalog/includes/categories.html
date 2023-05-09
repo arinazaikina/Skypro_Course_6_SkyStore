@@ -1,0 +1,19 @@
+{% block categories %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="categories">
+					<h5>Категории:</h5>
+					<div class="list-group">
+						<a href="#"
+						   class="list-group-item list-group-item-action{% if not category_id %} active{% endif %}">Все</a>
+						{% for category in categories %}
+							<a href="#"
+							   class="list-group-item list-group-item-action{% if category_id|escape == category.id|stringformat:'s' %} active{% endif %}">{{ category.name }}</a>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

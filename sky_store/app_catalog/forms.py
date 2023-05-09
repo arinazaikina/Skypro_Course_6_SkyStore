@@ -1,5 +1,7 @@
 from django import forms
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MinValueValidator
+
+from app_catalog.models import Category
 
 
 class FeedbackForm(forms.Form):
@@ -34,4 +36,50 @@ class FeedbackForm(forms.Form):
             'placeholder': 'Ваше сообщение',
             'required': True,
         }),
+    )
+
+
+class ProductForm(forms.Form):
+    name = forms.CharField(
+        max_length=100,
+        label='Название',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите название товара',
+        }),
+    )
+
+    description = forms.CharField(
+        label='Описание',
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите описание товара',
+        }),
+    )
+
+    image = forms.ImageField(
+        label='Изображение (превью)',
+        required=False,
+        widget=forms.ClearableFileInput(attrs={
+            'class': 'form-control-file',
+        })
+    )
+
+    category = forms.ModelChoiceField(
+        label='Категория',
+        queryset=Category.get_all_categories(),
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+
+        })
+    )
+
+    price = forms.DecimalField(
+        label='Цена',
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(1, message='Цена должна быть больше 0')],
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+        })
     )
