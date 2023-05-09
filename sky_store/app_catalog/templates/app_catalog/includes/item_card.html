@@ -1,9 +1,9 @@
-{% load media_filter %}
+{% load media_tags %}
 
 <div class="col-lg-3 col-sm-6 mb-3">
 	<div class="item-card">
 		<div class="item-thumb">
-			<img src="{{ product.image|mediapath }}">
+			<img src="{% mediapath product.image %}">
 		</div>
 		<div class="item-details">
 			<h4><a href="{% url 'app_catalog:product_detail' product_id=product.pk %}">{{ product.name }}</a></h4>
