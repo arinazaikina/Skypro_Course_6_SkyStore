@@ -22,6 +22,9 @@
 						{% include 'app_catalog/includes/item_card.html' %}
 					{% endfor %}
 				</div>
+
+				{% include 'app_catalog/includes/pagination.html' %}
+
 			{% else %}
 				<h3>Пока товаров нет</h3>
 			{% endif %}

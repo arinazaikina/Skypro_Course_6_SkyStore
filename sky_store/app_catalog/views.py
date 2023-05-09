@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -24,6 +25,7 @@ class HomePageView(View):
 class ProductListView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         category_id = request.GET.get(key='category', default=None)
+        page = request.GET.get(key='page', default=1)
         categories = Category.get_all_categories()
 
         if category_id:
@@ -32,6 +34,9 @@ class ProductListView(View):
         else:
             products = Product.get_all_products()
             category = 'Все'
+
+        paginator = Paginator(object_list=products, per_page=4)
+        products = paginator.get_page(number=page)
 
         context = {
             'category': category,
