@@ -1,9 +1,9 @@
 from django.contrib import messages
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import FormView, TemplateView, ListView
+from django.views.generic import FormView, TemplateView, ListView, DetailView
 
 from .forms import FeedbackForm, ProductForm
 from .models import Product, Category, CompanyContact
@@ -42,11 +42,9 @@ class ProductListView(ListView):
         return context
 
 
-class ProductDetailView(View):
-    def get(self, request: HttpRequest, product_id: int, *args, **kwargs) -> HttpResponse:
-        product = get_object_or_404(klass=Product, id=product_id)
-        context = {'product': product}
-        return render(request=request, template_name='app_catalog/product_detail.html', context=context)
+class ProductDetailView(DetailView):
+    model = Product
+    context_object_name = 'product'
 
 
 class CreateProduct(FormView):
