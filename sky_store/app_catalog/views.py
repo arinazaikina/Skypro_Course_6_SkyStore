@@ -4,22 +4,21 @@ from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 
 from .forms import FeedbackForm, ProductForm
 from .models import Product, Category, CompanyContact
 from .services import FeedbackServices
 
 
-class HomePageView(View):
-    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        categories = Category.get_all_categories()
-        products = Product.get_last_products(count=4)
-        context = {
-            'categories': categories,
-            'products': products
-        }
-        return render(request=request, template_name='app_catalog/home.html', context=context)
+class HomePageView(TemplateView):
+    template_name = 'app_catalog/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.get_all_categories()
+        context['products'] = Product.get_last_products(count=4)
+        return context
 
 
 class ProductListView(View):
