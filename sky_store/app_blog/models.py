@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.db import models
 from slugify import slugify
 
@@ -34,6 +36,14 @@ class Post(models.Model):
     def increment_view_count(self):
         self.views_count += 1
         self.save()
+
+        if self.views_count == 100:
+            send_mail(
+                subject='Поздравляем с достижением!',
+                message=f'Статья "{self.title}" достигла 100 просмотров!',
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[settings.EMAIL_HOST_USER]
+            )
 
     def make_unpublished(self):
         self.published = False
