@@ -7,4 +7,3 @@ from app_blog.models import Post
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'created_at', 'published', 'views_count']
     list_display_links = ['title']
-    prepopulated_fields = {"slug": ("title",)}
