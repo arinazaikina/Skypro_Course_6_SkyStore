@@ -31,10 +31,10 @@ class Post(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-    def delete(self, *args, **kwargs):
-        self.published = False
-        self.save()
-
     def increment_view_count(self):
         self.views_count += 1
+        self.save()
+
+    def make_unpublished(self):
+        self.published = False
         self.save()

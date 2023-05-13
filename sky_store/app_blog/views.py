@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -9,6 +10,11 @@ from app_blog.models import Post
 
 class PostListView(ListView):
     model = Post
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(published=True)
+        return queryset
 
 
 class PostDetailView(DetailView):
@@ -53,3 +59,12 @@ class PostUpdateView(UpdateView):
 class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('app_blog:post_list')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.make_unpublished()
+
+        message = f'Статус статьи "{self.object.title}" изменён на не опубликована'
+        messages.success(request, message)
+
+        return HttpResponseRedirect(self.get_success_url())
