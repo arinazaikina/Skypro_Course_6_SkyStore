@@ -34,3 +34,7 @@ class Post(models.Model):
     def delete(self, *args, **kwargs):
         self.published = False
         self.save()
+
+    def increment_view_count(self):
+        self.views_count += 1
+        self.save()

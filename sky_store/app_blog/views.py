@@ -14,6 +14,11 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset=queryset)
+        obj.increment_view_count()
+        return obj
+
 
 class PostCreateView(CreateView):
     model = Post
@@ -43,6 +48,7 @@ class PostUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['action'] = 'Редактировать'
         return context
+
 
 class PostDeleteView(DeleteView):
     model = Post
