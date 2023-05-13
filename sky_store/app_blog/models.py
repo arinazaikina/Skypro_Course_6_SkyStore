@@ -34,6 +34,11 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
     def increment_view_count(self):
+        """
+        Увеличивает счетчик просмотров поста на 1.
+        Если счетчик просмотров достигает 100, отправляет
+        письмо на электронную почту.
+        """
         self.views_count += 1
         self.save()
 
@@ -46,5 +51,8 @@ class Post(models.Model):
             )
 
     def make_unpublished(self):
+        """
+        Помечает пост как неопубликованный.
+        """
         self.published = False
         self.save()
