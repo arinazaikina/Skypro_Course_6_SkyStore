@@ -11,7 +11,10 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):
-    list_display = ['time', 'frequency', 'status', 'client']
+    list_display = ['time', 'frequency', 'status']
+
+    class Media:
+        js = ('js/select_all.js',)
 
 
 @admin.register(Message)

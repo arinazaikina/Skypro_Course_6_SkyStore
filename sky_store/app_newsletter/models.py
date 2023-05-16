@@ -39,22 +39,23 @@ class Newsletter(models.Model):
     Модель, описывающая рассылку
     """
     FREQUENCY_CHOICES = [
-        ('D', 'Daily'),
-        ('W', 'Weekly'),
-        ('M', 'Monthly')
+        ('D', 'Раз в день'),
+        ('W', 'Раз в неделю'),
+        ('M', 'Раз в месяц')
     ]
 
     STATUS_CHOICES = [
-        ('F', 'Finished'),
-        ('C', 'Created'),
-        ('S', 'Started')
+        ('F', 'Завершена'),
+        ('C', 'Создана'),
+        ('S', 'Запущена')
     ]
 
     time = models.TimeField(verbose_name='Время рассылки')
     frequency = models.CharField(max_length=1, choices=FREQUENCY_CHOICES, verbose_name='Периодичность')
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Статус рассылки')
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name='Клиент', related_name='newsletters')
+    clients = models.ManyToManyField('Client', verbose_name='Клиенты', related_name='newsletters')
     messages = models.ManyToManyField('Message', verbose_name='Сообщения', related_name='newsletters')
+    is_active = models.BooleanField(default=True, verbose_name='Активная')
 
     class Meta:
         db_table = 'newsletters'
@@ -62,7 +63,17 @@ class Newsletter(models.Model):
         verbose_name_plural = 'Рассылки'
 
     def __str__(self):
-        return f"Newsletter #{self.id} for {self.client.email}"
+        return f"Рассылка #{self.id}"
+
+    def get_absolute_url(self):
+        return reverse('app_newsletter:newsletter_detail', args=[str(self.id)])
+
+    def make_inactive(self):
+        """
+        Делает рассылку неактивной.
+        """
+        self.is_active = False
+        self.save()
 
 
 class Message(models.Model):

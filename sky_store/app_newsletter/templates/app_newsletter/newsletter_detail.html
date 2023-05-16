@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{{ object }}
+{% endblock %}
+
+{% block content %}
+	<section class="main-content">
+		<div class="container">
+			<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+				<h1 class="display-4">
+					{{ object }}
+				</h1>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<p><b>Время: </b>{{ object.time }}</p>
+					<p><b>Периодичность: </b>{{ object.get_frequency_display }}</p>
+					<p><b>Статус: </b>{{ object.get_status_display }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 d-flex justify-content-between">
+					<div>
+						<a href="{% url 'app_newsletter:newsletter_update' pk=object.pk %}" class="btn btn-warning"
+						   role="button">
+							Редактировать
+						</a>
+					</div>
+					<div>
+						<a href="{% url 'app_newsletter:newsletter_delete' pk=object.pk %}" class="btn btn-danger"
+						   role="button">
+							Удалить
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
