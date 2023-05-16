@@ -7,7 +7,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app_catalog.urls', namespace='app_catalog')),
-    path('', include('app_blog.urls', namespace='app_blog'))
+    path('', include('app_blog.urls', namespace='app_blog')),
+    path('', include('app_newsletter.urls', namespace='app_newsletter'))
 ]
 
 if settings.DEBUG:

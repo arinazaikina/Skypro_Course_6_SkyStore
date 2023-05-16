@@ -54,10 +54,11 @@
 					Рассылки
 				</a>
 				<div class="dropdown-menu" aria-labelledby="newsletterDropdown">
-					<a class="dropdown-item" href="#">Список клиентов</a>
+					<a class="dropdown-item" href="{% url 'app_newsletter:client_list' %}">Список клиентов</a>
 					<a class="dropdown-item" href="#">Список рассылок</a>
+					<a class="dropdown-item" href="{% url 'app_newsletter:client_create' %}">Создать клиента</a>
 					<a class="dropdown-item" href="#">Создать рассылку</a>
-					<a class="dropdown-item" href="#">Создать клиента</a>
+
 				</div>
 			</li>
 		</ul>
