@@ -24,23 +24,40 @@
 					</div>
 				</li>
 			{% else %}
-				<li class="nav-item active">
-					<a class="nav-link" href="{% url 'app_catalog:product_list' %}">Каталог<span
-							class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'app_catalog:create_product' %}">Добавить товар</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'app_catalog:contacts' %}">Контакты</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'app_blog:post_list' %}">Блог</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'app_blog:post_create' %}">Создать пост</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="catalogDropdown" role="button"
+					   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Каталог
+					</a>
+					<div class="dropdown-menu" aria-labelledby="catalogDropdown">
+						<a class="dropdown-item" href="{% url 'app_catalog:product_list' %}">Все товары</a>
+						<a class="dropdown-item" href="{% url 'app_catalog:create_product' %}">Добавить товар</a>
+					</div>
 				</li>
 			{% endif %}
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'app_catalog:contacts' %}">Контакты</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="blogDropdown" role="button"
+				   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Блог
+				</a>
+				<div class="dropdown-menu" aria-labelledby="blogDropdown">
+					<a class="dropdown-item" href="{% url 'app_blog:post_list' %}">Статьи</a>
+					<a class="dropdown-item" href="{% url 'app_blog:post_create' %}">Создать статью</a>
+				</div>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="newsletterDropdown" role="button"
+				   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Рассылки
+				</a>
+				<div class="dropdown-menu" aria-labelledby="newsletterDropdown">
+					<a class="dropdown-item" href="#">Список рассылок</a>
+					<a class="dropdown-item" href="#">Создать рассылку</a>
+				</div>
+			</li>
 		</ul>
 	</div>
 </nav>
