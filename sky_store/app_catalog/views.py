@@ -1,57 +1,50 @@
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView, ListView, DetailView
 
 from .forms import FeedbackForm, ProductForm
 from .models import Product, Category, CompanyContact
 from .services import FeedbackServices
 
 
-class HomePageView(View):
-    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        categories = Category.get_all_categories()
-        products = Product.get_last_products(count=4)
-        context = {
-            'categories': categories,
-            'products': products
-        }
-        return render(request=request, template_name='app_catalog/home.html', context=context)
+class HomePageView(TemplateView):
+    template_name = 'app_catalog/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.get_all_categories()
+        context['products'] = Product.get_last_products(count=4)
+        return context
 
 
-class ProductListView(View):
-    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        category_id = request.GET.get(key='category', default=None)
-        page = request.GET.get(key='page', default=1)
-        categories = Category.get_all_categories()
+class ProductListView(ListView):
+    context_object_name = 'products'
+    paginate_by = 4
 
+    def get_queryset(self):
+        category_id = self.request.GET.get('category', None)
         if category_id:
-            products = Product.get_products_by_category(category_id=category_id)
-            category = Category.get_category_by_id(category_id=category_id)
+            return Product.get_products_by_category(category_id=category_id)
+        return Product.get_all_products()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.request.GET.get('category')
+        context['categories'] = Category.get_all_categories()
+        if category_id:
+            context['category'] = Category.get_category_by_id(category_id=category_id)
         else:
-            products = Product.get_all_products()
-            category = 'Все'
+            context['category'] = 'Все'
 
-        paginator = Paginator(object_list=products, per_page=4)
-        products = paginator.get_page(number=page)
-
-        context = {
-            'category': category,
-            'categories': categories,
-            'products': products
-        }
-
-        return render(request=request, template_name='app_catalog/product_list.html', context=context)
+        return context
 
 
-class ProductDetailView(View):
-    def get(self, request: HttpRequest, product_id: int, *args, **kwargs) -> HttpResponse:
-        product = get_object_or_404(klass=Product, id=product_id)
-        context = {'product': product}
-        return render(request=request, template_name='app_catalog/product_detail.html', context=context)
+class ProductDetailView(DetailView):
+    model = Product
+    context_object_name = 'product'
 
 
 class CreateProduct(FormView):
