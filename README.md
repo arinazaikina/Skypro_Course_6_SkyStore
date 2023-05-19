@@ -41,3 +41,17 @@ class HomePageView(View):
 ```
 
 ![result](img/additional_task_screen.png)
+
+# Периодические задачи
+* Запуск сервера
+```bash
+python manage.py runserver
+```
+* Запуск celery
+```bash
+celery -A config worker --loglevel=info
+```
+* Запуск celery-beats
+```bash
+celery -A config beat --loglevel=info
+```
