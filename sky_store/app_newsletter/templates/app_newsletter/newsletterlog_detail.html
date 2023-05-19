@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ object }}
+{% endblock %}
+
+{% block content %}
+    <section class="main-content">
+        <div class="container">
+            <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                <h1 class="display-4">
+                    {{ object }}
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5>Время:</h5>
+                    <p>{{ object.date_time|date:"D d M Y" }} {{ object.date_time|time:"H:i:s" }}</p>
+                    <h5>Статус:</h5>
+                    <p>{{ object.get_status_display }}</p>
+                    <h5>Ответ сервера:</h5>
+                    <p>{{ object.server_response }}</p>
+                    <h5>Клиент:</h5>
+                    <p>{{ object.client.email }} ({{ object.client.first_name }} {{ object.client.last_name }})</p>
+                    <h5>Заголовок письма:</h5>
+                    <p>{{ object.message.subject }}</p>
+                    <h5>Тело письма:</h5>
+                    <p>{{ object.message.body }}</p>
+                    <h5>Рассылка:</h5>
+                    {% if object.newsletter %}
+                        <p>
+                            <a href="{% url 'app_newsletter:newsletter_detail' pk=object.newsletter.pk %}">
+                                {{ object.newsletter }}
+                            </a>
+                        </p>
+                    {% else %}
+                        <p>Рассылка удалена</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

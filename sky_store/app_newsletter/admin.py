@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from app_newsletter.models import Client, Newsletter, Message, NewsletterLog
+from .models import Client, Newsletter, Message, NewsletterLog
 
 
 @admin.register(Client)
@@ -11,7 +11,7 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):
-    list_display = ['time', 'frequency', 'status']
+    list_display = ['pk', 'time', 'frequency', 'status', 'created_at']
 
     class Media:
         js = ('js/select_all.js',)

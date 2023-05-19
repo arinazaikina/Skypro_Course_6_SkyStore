@@ -2,10 +2,11 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from slugify import slugify
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from app_blog.forms import PostCreateForm
-from app_blog.models import Post
+from .forms import PostCreateForm
+from .models import Post
 
 
 class PostListView(ListView):
@@ -31,7 +32,9 @@ class PostCreateView(CreateView):
     form_class = PostCreateForm
 
     def form_valid(self, form):
-        post = form.save()
+        post = form.save(commit=False)
+        post.slug = slugify(post.title)
+        post.save()
         messages.success(request=self.request, message='Статья успешно создана')
         return redirect(reverse('app_blog:post_detail', kwargs={'slug': post.slug}))
 
@@ -47,6 +50,8 @@ class PostUpdateView(UpdateView):
 
     def form_valid(self, form):
         post = form.save()
+        post.slug = slugify(post.title)
+        post.save()
         messages.success(request=self.request, message='Статья успешно отредактирована')
         return redirect(reverse('app_blog:post_detail', kwargs={'slug': post.slug}))
 

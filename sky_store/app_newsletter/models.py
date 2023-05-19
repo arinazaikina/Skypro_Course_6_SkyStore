@@ -52,10 +52,13 @@ class Newsletter(models.Model):
 
     time = models.TimeField(verbose_name='Время рассылки')
     frequency = models.CharField(max_length=1, choices=FREQUENCY_CHOICES, verbose_name='Периодичность')
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Статус рассылки')
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Статус рассылки', blank=True)
     clients = models.ManyToManyField('Client', verbose_name='Клиенты', related_name='newsletters')
     messages = models.ManyToManyField('Message', verbose_name='Сообщения', related_name='newsletters')
     is_active = models.BooleanField(default=True, verbose_name='Активная')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    finish_date = models.DateField(verbose_name='Дата завершения рассылки')
+    finish_time = models.TimeField(verbose_name='Время завершения рассылки')
 
     class Meta:
         db_table = 'newsletters'
@@ -63,10 +66,10 @@ class Newsletter(models.Model):
         verbose_name_plural = 'Рассылки'
 
     def __str__(self):
-        return f"Рассылка #{self.id}"
+        return f"Рассылка #{self.pk}"
 
     def get_absolute_url(self):
-        return reverse('app_newsletter:newsletter_detail', args=[str(self.id)])
+        return reverse('app_newsletter:newsletter_detail', args=[str(self.pk)])
 
     def make_inactive(self):
         """
@@ -104,14 +107,14 @@ class NewsletterLog(models.Model):
     date_time = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время')
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Статус')
     server_response = models.TextField(verbose_name='Ответ почтового сервера')
-    newsletter = models.ForeignKey(
-        Newsletter, on_delete=models.CASCADE, verbose_name='Рассылка', related_name='newsletter_log'
-    )
+    client = models.ForeignKey(Client, on_delete=models.SET_NULL, verbose_name='Клиент', **NULLABLE)
+    message = models.ForeignKey(Message, on_delete=models.SET_NULL, verbose_name='Сообщение', **NULLABLE)
+    newsletter = models.ForeignKey(Newsletter, on_delete=models.SET_NULL, verbose_name='Рассылка', **NULLABLE)
 
     class Meta:
         db_table = 'newsletter_logs'
-        verbose_name = 'Лог рассылки'
-        verbose_name_plural = 'Логи рассылок'
+        verbose_name = 'Лог отправки письма'
+        verbose_name_plural = 'Логи отправок писем'
 
     def __str__(self):
-        return f'{self.status}: {self.date_time}'
+        return f'Лог #{self.pk}'

@@ -1,6 +1,6 @@
 from django import forms
 
-from app_newsletter.models import Client, Newsletter
+from .models import Client, Newsletter
 
 
 class SelectMultipleWithAllOption(forms.SelectMultiple):
@@ -63,9 +63,11 @@ class NewsletterCreateForm(forms.ModelForm):
 
     class Meta:
         model = Newsletter
-        fields = ['time', 'frequency', 'status', 'clients', 'messages']
+        fields = ['time', 'finish_date', 'finish_time', 'frequency', 'clients', 'messages']
         labels = {
             'time': 'Время',
+            'finish_date': 'Дата завершения рассылки',
+            'finish_time': 'Время завершения рассылки',
             'frequency': 'Периодичность',
             'status': 'Статус',
             'clients': 'Клиенты',
@@ -75,16 +77,22 @@ class NewsletterCreateForm(forms.ModelForm):
             'time': forms.TimeInput(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Введите время рассылки',
+                    'type': 'time'
+                }
+            ),
+            'finish_date': forms.TimeInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'date'
+                }
+            ),
+            'finish_time': forms.TimeInput(
+                attrs={
+                    'class': 'form-control',
                     'type': 'time'
                 }
             ),
             'frequency': forms.Select(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
-            'status': forms.Select(
                 attrs={
                     'class': 'form-control'
                 }
