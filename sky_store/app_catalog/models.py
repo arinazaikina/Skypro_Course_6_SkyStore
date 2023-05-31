@@ -1,5 +1,6 @@
 from typing import Union
 
+from django.core.validators import MinValueValidator
 from django.db import models
 
 NULLABLE = {'blank': True, 'null': True}
@@ -69,7 +70,12 @@ class Product(models.Model):
         upload_to='products/', verbose_name='Изображение (превью)', default='products/default.png'
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name='Цена',
+        validators=[MinValueValidator(0, message='Цена не может быть меньше 0')]
+    )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
 

@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import FormView, TemplateView, ListView, DetailView
+from django.views.generic import FormView, TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import FeedbackForm, ProductForm
 from .models import Product, Category, CompanyContact
@@ -47,22 +47,47 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
 
-class CreateProduct(FormView):
+class ProductCreateView(CreateView):
+    model = Product
     form_class = ProductForm
-    template_name = 'app_catalog/create_product.html'
 
-    def form_valid(self, form) -> HttpResponseRedirect:
-        image = form.cleaned_data['image'] if form.cleaned_data['image'] else None
-        product = Product.create_product(
-            name=form.cleaned_data.get('name'),
-            description=form.cleaned_data.get('description'),
-            image=image,
-            category=form.cleaned_data.get('category'),
-            price=form.cleaned_data.get('price')
-        )
-
+    def form_valid(self, form: ProductForm) -> HttpResponseRedirect:
+        product = form.save()
         messages.success(self.request, 'Товар успешно добавлен')
         return HttpResponseRedirect(reverse('app_catalog:product_detail', args=[product.id]))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'Создать'
+        return context
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+
+    def form_valid(self, form: ProductForm) -> HttpResponseRedirect:
+        product = form.save()
+        messages.success(self.request, 'Товар обновлён')
+        return HttpResponseRedirect(reverse('app_catalog:product_detail', args=[product.id]))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'Редактировать'
+        return context
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('app_catalog:product_list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        message = f'Товар "{self.object.title}" удалён'
+        messages.success(request, message)
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class ContactsView(FormView):
