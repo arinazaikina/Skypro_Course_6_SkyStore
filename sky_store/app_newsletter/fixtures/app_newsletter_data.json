@@ -3,7 +3,7 @@
     "model": "app_newsletter.client",
     "pk": 2,
     "fields": {
-        "email": "sav2405@gmail.com",
+        "email": "arina.viejo@yandex.ru",
         "first_name": "Арина",
         "last_name": "Заикина",
         "middle_name": "Валерьевна",
@@ -15,7 +15,7 @@
     "model": "app_newsletter.client",
     "pk": 3,
     "fields": {
-        "email": "anna@mail.ru",
+        "email": "sav2405@gmail.com",
         "first_name": "Анна",
         "last_name": "Иванова",
         "middle_name": null,
@@ -24,36 +24,34 @@
     }
 },
 {
-    "model": "app_newsletter.newsletter",
-    "pk": 1,
+    "model": "app_newsletter.client",
+    "pk": 4,
     "fields": {
-        "time": "00:00:00",
-        "frequency": "D",
-        "status": "C",
-        "is_active": false,
-        "clients": [
-            2,
-            3
-        ],
-        "messages": [
-            3
-        ]
+        "email": "evgeniy19872004@mail.ru",
+        "first_name": "Евгений",
+        "last_name": "Заикин",
+        "middle_name": "Владимирович",
+        "comment": null,
+        "is_active": true
     }
 },
 {
     "model": "app_newsletter.newsletter",
-    "pk": 2,
+    "pk": 74,
     "fields": {
-        "time": "02:08:00",
-        "frequency": "W",
-        "status": "C",
+        "time": "20:26:00",
+        "frequency": "D",
+        "status": "S",
         "is_active": true,
+        "created_at": "2023-05-19T12:50:35.612Z",
+        "finish_date": "2023-05-20",
+        "finish_time": "15:50:00",
         "clients": [
             2,
             3
         ],
         "messages": [
-            1
+            4
         ]
     }
 },
@@ -77,16 +75,124 @@
     "model": "app_newsletter.message",
     "pk": 3,
     "fields": {
-        "subject": "Распродажа защиты",
-        "body": "Скидка на всё защитное снаряжение 10%"
+        "subject": "Защита",
+        "body": "10% скидка на все защитное снаряжение. Заглянешь к нам в магазин?"
     }
 },
 {
     "model": "app_newsletter.message",
     "pk": 4,
     "fields": {
-        "subject": "Дарим подарки",
-        "body": "Купи лыжи или сноуборд и получи чехол в подарок!"
+        "subject": "Чехол",
+        "body": "Подарю тебе чехол за покупку лыж или сноуборда"
+    }
+},
+{
+    "model": "app_newsletter.newsletterlog",
+    "pk": 73,
+    "fields": {
+        "date_time": "2023-05-19T13:36:01.261Z",
+        "status": "S",
+        "server_response": "Письмо успешно доставлено",
+        "client": 2,
+        "message": 4,
+        "newsletter": 74
+    }
+},
+{
+    "model": "app_newsletter.newsletterlog",
+    "pk": 74,
+    "fields": {
+        "date_time": "2023-05-19T13:36:02.384Z",
+        "status": "F",
+        "server_response": "(554, b'5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/1IrBc 1684503362-1aedE2cDgCg0-XxcFWxfM')",
+        "client": 3,
+        "message": 4,
+        "newsletter": 74
+    }
+},
+{
+    "model": "app_newsletter.newsletterlog",
+    "pk": 75,
+    "fields": {
+        "date_time": "2023-05-19T13:48:01.452Z",
+        "status": "S",
+        "server_response": "Письмо успешно доставлено",
+        "client": 2,
+        "message": 4,
+        "newsletter": 74
+    }
+},
+{
+    "model": "app_newsletter.newsletterlog",
+    "pk": 76,
+    "fields": {
+        "date_time": "2023-05-19T13:48:02.589Z",
+        "status": "F",
+        "server_response": "(554, b'5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/1IrBc 1684504082-1meBr2cDTuQ0-WZqAXXri')",
+        "client": 3,
+        "message": 4,
+        "newsletter": 74
+    }
+},
+{
+    "model": "app_newsletter.newsletterlog",
+    "pk": 77,
+    "fields": {
+        "date_time": "2023-05-19T13:51:01.254Z",
+        "status": "S",
+        "server_response": "Письмо успешно доставлено",
+        "client": 2,
+        "message": 3,
+        "newsletter": 74
+    }
+},
+{
+    "model": "app_newsletter.newsletterlog",
+    "pk": 78,
+    "fields": {
+        "date_time": "2023-05-19T13:51:02.593Z",
+        "status": "S",
+        "server_response": "Письмо успешно доставлено",
+        "client": 3,
+        "message": 3,
+        "newsletter": 74
+    }
+},
+{
+    "model": "app_newsletter.newsletterlog",
+    "pk": 79,
+    "fields": {
+        "date_time": "2023-05-19T13:51:03.829Z",
+        "status": "S",
+        "server_response": "Письмо успешно доставлено",
+        "client": 4,
+        "message": 3,
+        "newsletter": 74
+    }
+},
+{
+    "model": "app_newsletter.newsletterlog",
+    "pk": 80,
+    "fields": {
+        "date_time": "2023-05-19T17:26:01.315Z",
+        "status": "S",
+        "server_response": "Письмо успешно доставлено",
+        "client": 2,
+        "message": 4,
+        "newsletter": 74
+    }
+},
+{
+    "model": "app_newsletter.newsletterlog",
+    "pk": 81,
+    "fields": {
+        "date_time": "2023-05-19T17:26:02.447Z",
+        "status": "S",
+        "server_response": "Письмо успешно доставлено",
+        "client": 3,
+        "message": 4,
+        "newsletter": 74
     }
 }
 ]

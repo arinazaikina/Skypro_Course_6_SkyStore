@@ -109,6 +109,9 @@ python manage.py loaddata app_blog_data.json
 ```bash
 python manage.py loaddata app_catalog_data.json
 ```
+```bash
+python manage.py loaddata app_newsletter_data.json
+```
 
 ## Шаг 8. Запуск celery
 1. Открыть новое окно терминала
