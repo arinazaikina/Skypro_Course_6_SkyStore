@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Optional
 
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -142,6 +142,31 @@ class Product(models.Model):
         )
         product.save()
         return product
+
+    def get_active_version(self) -> Optional['Version']:
+        """
+        Возвращает активную версию товара, если она существует.
+        Если активная версия не найдена, возвращает None
+        """
+        return self.version.filter(is_current_version=True).first()
+
+
+class Version(models.Model):
+    """
+    Модель, описывающая версию товара.
+    """
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='version', verbose_name='Продукт')
+    version_number = models.CharField(max_length=100, verbose_name='Номер версии')
+    version_name = models.CharField(max_length=100, verbose_name='Название версии')
+    is_current_version = models.BooleanField(default=False, verbose_name='Текущая версия')
+
+    class Meta:
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'
+        db_table = 'versions'
+
+    def __str__(self):
+        return f"{self.version_number}: {self.version_name}"
 
 
 class CompanyContact(models.Model):

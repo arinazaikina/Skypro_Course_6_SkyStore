@@ -125,13 +125,13 @@
     "model": "app_catalog.product",
     "pk": 21,
     "fields": {
-        "name": "Горные лыжи ELAN",
+        "name": "Горные лыжи ELAN!!!",
         "description": "Elan FX SGJ Plate - это гоночные лыжи серии WorldCup. Уникальный ламинированный цельнодеревянный сердечник Response Frame Wood Core, в котором используется две породы дерева позволяет создавать лыжи с разнообразным распределением жёсткости в зависимости от их назначения. Сердечник заключен между двумя слоями титана благодаря технологии DUAL TI. Такая конструкция обеспечивает максимальный контроль над закантовкой и прогрессивную жёсткость.",
         "image": "products/b0d8aa769a1bdc0cd0f2c2f648137b93.jpeg",
         "category": 15,
         "price": "50690.00",
         "created_at": "2023-05-09T07:37:28.508Z",
-        "updated_at": "2023-05-09T09:27:01.229Z"
+        "updated_at": "2023-05-31T20:05:46.864Z"
     }
 },
 {
@@ -144,7 +144,7 @@
         "category": 14,
         "price": "41510.00",
         "created_at": "2023-05-09T07:39:12.443Z",
-        "updated_at": "2023-05-09T07:39:28.265Z"
+        "updated_at": "2023-06-01T09:42:43.799Z"
     }
 },
 {
@@ -275,6 +275,49 @@
         "price": "31430.00",
         "created_at": "2023-05-13T09:02:31.814Z",
         "updated_at": "2023-05-13T09:02:31.814Z"
+    }
+},
+{
+    "model": "app_catalog.product",
+    "pk": 41,
+    "fields": {
+        "name": "Горные лыжи с креплениями ELAN",
+        "description": "Универсальная серия Wingman - это новый подход к созданию all mountain лыж. Они созданы для повышения энергии лыжника на любом склоне и при любом состоянии снега. Wingman 82 Ti идеально подходят для любого горного карвинга без чрезмерных усилий и круизного катания. Чуть менее скоростные, чем версия CTi, но такие же отзывчивые и универсальные. Современный асимметричный дизайн, лыжи делятся на правую и левую для идеальных поворотов.",
+        "image": "products/default.png",
+        "category": 15,
+        "price": "43590.00",
+        "created_at": "2023-05-31T19:09:41.866Z",
+        "updated_at": "2023-06-01T09:41:50.596Z"
+    }
+},
+{
+    "model": "app_catalog.version",
+    "pk": 5,
+    "fields": {
+        "product": 41,
+        "version_number": "2023-01",
+        "version_name": "Wingman 82 Ti",
+        "is_current_version": true
+    }
+},
+{
+    "model": "app_catalog.version",
+    "pk": 28,
+    "fields": {
+        "product": 23,
+        "version_number": "2022-05",
+        "version_name": "2022 год",
+        "is_current_version": true
+    }
+},
+{
+    "model": "app_catalog.version",
+    "pk": 29,
+    "fields": {
+        "product": 23,
+        "version_number": "2022-04",
+        "version_name": "2022 год",
+        "is_current_version": false
     }
 },
 {

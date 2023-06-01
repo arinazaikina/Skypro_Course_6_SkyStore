@@ -1,7 +1,8 @@
 from django import forms
 from django.core.validators import RegexValidator
+from django.forms import inlineformset_factory, BaseInlineFormSet
 
-from .models import Product
+from .models import Product, Version
 
 
 class FeedbackForm(forms.Form):
@@ -92,3 +93,60 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'description', 'image', 'category', 'price']
+
+
+class VersionForm(forms.ModelForm):
+    """
+    Форма для создания версии
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        """
+        Инициализирует форму и добавляет CSS-классы и
+        плейсхолдеры для полей формы.
+        """
+        super().__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            if field_name != 'is_current_version':
+                field.widget.attrs['class'] = 'form-control'
+
+        self.fields['version_number'].widget.attrs['placeholder'] = 'Введите номер версии'
+        self.fields['version_name'].widget.attrs['placeholder'] = 'Введите название версии'
+
+    class Meta:
+        model = Version
+        fields = ['version_number', 'version_name', 'is_current_version']
+
+
+class VersionFormSet(BaseInlineFormSet):
+    """
+    Класс, описывающий формсет для версий продукта.
+    Наследуется от BaseInlineFormSet Django.
+    """
+
+    def clean(self):
+        """
+        Проверяет, что выбрана только одна активная версия продукта.
+        """
+        super().clean()
+        current_version_count = 0
+        for form in self.forms:
+            if not form.is_valid():
+                return
+            if form.cleaned_data and form.cleaned_data.get('is_current_version'):
+                current_version_count += 1
+
+        if current_version_count > 1:
+            raise forms.ValidationError(
+                'Может быть только одна активная версия продукта. Пожалуйста, выберите только одну активную версию.'
+            )
+
+
+ProductVersionFormSet = inlineformset_factory(
+    parent_model=Product,
+    model=Version,
+    form=VersionForm,
+    formset=VersionFormSet,
+    extra=1
+)

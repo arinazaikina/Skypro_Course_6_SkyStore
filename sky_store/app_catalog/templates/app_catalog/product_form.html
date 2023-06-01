@@ -10,47 +10,50 @@
             <h2>{{ action }} товар</h2>
             <form method="post" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
-                <div class="mb-3">
-                    {{ form.name.label_tag }} {{ form.name }}
-                    {% if form.name.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.name.errors|join:", " }}
-                        </div>
-                    {% endif %}
+                <div class="row">
+
+                    <div class="col-md-6">
+                        {% for field in form %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ versions.management_form }}
+                        {% for version_form in versions %}
+                            <div class="border p-3 mb-3">
+                                {% for hidden_field in version_form.hidden_fields %}
+                                    {{ hidden_field }}
+                                {% endfor %}
+                                {% for visible_field in version_form.visible_fields %}
+                                    <div class="form-group">
+                                        {{ visible_field.label_tag }}
+                                        {{ visible_field }}
+                                        {% for error in visible_field.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                                {% if version_form.non_field_errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ version_form.non_field_errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="mb-3">
-                    {{ form.description.label_tag }} {{ form.description }}
-                    {% if form.description.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.description.errors|join:", " }}
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    {{ form.image.label_tag }} {{ form.image }}
-                    {% if form.image.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.image.errors|join:", " }}
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    {{ form.category.label_tag }} {{ form.category }}
-                    {% if form.category.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.category.errors|join:", " }}
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    {{ form.price.label_tag }} {{ form.price }}
-                    {% if form.price.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.price.errors|join:", " }}
-                        </div>
-                    {% endif %}
-                </div>
-                <button type="submit" class="btn btn-lg btn-block btn-outline-primary">{{ action }}</button>
+                <input type="submit" class="btn btn-success" value="{{ action }}">
             </form>
         </div>
     </section>
