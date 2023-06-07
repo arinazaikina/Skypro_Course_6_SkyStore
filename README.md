@@ -13,7 +13,7 @@ cd Skypro_Course_6_SkyStore
 ```
 5. Переключиться на ветку разработки
 ```bash
-git checkout hw_22.1
+git checkout hw_22.2
 ```
 
 ## Шаг 2. Установка зависимостей
@@ -103,6 +103,9 @@ python manage.py migrate
 ```
 
 ## Шаг 7. Загрузка данных с помощью фикстур
+```bash
+python manage.py loaddata app_user_data.json
+```
 ```bash
 python manage.py loaddata app_blog_data.json
 ```
