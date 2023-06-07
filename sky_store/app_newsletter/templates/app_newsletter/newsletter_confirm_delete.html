@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	Удалить рассылку
+    Удалить рассылку
+{% endblock %}
+
+{% block header %}
+    Удалить рассылку
 {% endblock %}
 
 {% block content %}
-	<section class="main-content">
-		<div class="container">
-			<h2>Удалить рассылку</h2>
-			<form method="post" enctype="multipart/form-data" novalidate>
-				{% csrf_token %}
-				<p>Уверены, что хотите удалить рассылку "{{ object }}"?</p>
-				<input type="submit" class="btn btn-outline-danger" value="Уверен">
-			</form>
-		</div>
-	</section>
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <p>Уверены, что хотите удалить рассылку "{{ object }}"?</p>
+        <input type="submit" class="btn btn-outline-danger" value="Уверен">
+    </form>
 {% endblock %}

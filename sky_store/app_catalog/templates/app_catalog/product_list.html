@@ -1,33 +1,28 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	Каталог
+    Каталог
+{% endblock %}
+
+{% block header %}
+    {% if category == 'Все' %}
+        Все товары
+    {% else %}
+        {{ category.name }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-	<section class="main-content">
-		<div class="container">
-			<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-				<h1 class="display-4">
-					{% if category == 'Все' %}
-						Все товары
-					{% else %}
-						{{ category.name }}
-					{% endif %}
-				</h1>
-			</div>
-			{% if products %}
-				<div class="row">
-					{% for product in products %}
-						{% include 'app_catalog/includes/item_card.html' %}
-					{% endfor %}
-				</div>
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                {% include 'app_catalog/includes/item_card.html' %}
+            {% endfor %}
+        </div>
 
-				{% include 'app_catalog/includes/pagination.html' %}
+        {% include 'app_catalog/includes/pagination.html' %}
 
-			{% else %}
-				<h3>Пока товаров нет</h3>
-			{% endif %}
-		</div>
-	</section>
+    {% else %}
+        <h3>Пока товаров нет</h3>
+    {% endif %}
 {% endblock %}

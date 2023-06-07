@@ -48,6 +48,12 @@ a:hover {
     transform: scale(1);
 }
 
+.user-dropdown-menu {
+    position: static;
+    left: auto;
+    right: 0;
+}
+
 .item-card {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
     transition: all .3s

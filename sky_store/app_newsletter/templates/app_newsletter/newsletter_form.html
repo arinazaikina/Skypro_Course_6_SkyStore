@@ -4,27 +4,26 @@
     {{ action }} рассылку
 {% endblock %}
 
+{% block header %}
+    {{ action }} рассылку
+{% endblock %}
+
 {% block content %}
-    <section class="main-content">
-        <div class="container">
-            <h2>{{ action }} рассылку</h2>
-            <form method="post" enctype="multipart/form-data" novalidate>
-                {% csrf_token %}
-                {% for field in form %}
-                    <div class="form-group">
-                        {{ field.label_tag }}
-                        {{ field }}
-                        {% for error in field.errors %}
-                            <div class="invalid-feedback d-block">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ error }}
                     </div>
                 {% endfor %}
-                <input type="submit" class="btn btn-success" value="{{ action }}">
-            </form>
-        </div>
-    </section>
+            </div>
+        {% endfor %}
+        <input type="submit" class="btn btn-success" value="{{ action }}">
+    </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {

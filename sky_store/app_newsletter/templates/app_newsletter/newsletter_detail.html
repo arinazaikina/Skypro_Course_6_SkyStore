@@ -4,51 +4,46 @@
     {{ object }}
 {% endblock %}
 
+{% block header %}
+    {{ object }}
+{% endblock %}
+
 {% block content %}
-    <section class="main-content">
-        <div class="container">
-            <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-                <h1 class="display-4">
-                    {{ object }}
-                </h1>
+    <div class="row">
+        <div class="col-lg-12">
+            <h5>Время:</h5>
+            <p>{{ object.time }}</p>
+            <h5>Периодичность:</h5>
+            <p>{{ object.get_frequency_display }}</p>
+            <h5>Статус:</h5>
+            <p>{{ object.get_status_display }}</p>
+            <h5>Сообщения в этой рассылке:</h5>
+            <ul>
+                {% for message in newsletter.messages.all %}
+                    <li>
+                        <p><b>{{ message.subject }}</b></p>
+                        <p>{{ message.body }}</p>
+                    </li>
+                    {% empty %}
+                    <li>В этой рассылке нет сообщений.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 d-flex justify-content-between">
+            <div>
+                <a href="{% url 'app_newsletter:newsletter_update' pk=object.pk %}" class="btn btn-warning"
+                   role="button">
+                    Редактировать
+                </a>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <h5>Время:</h5>
-                    <p>{{ object.time }}</p>
-                    <h5>Периодичность:</h5>
-                    <p>{{ object.get_frequency_display }}</p>
-                    <h5>Статус:</h5>
-                    <p>{{ object.get_status_display }}</p>
-                    <h5>Сообщения в этой рассылке:</h5>
-                    <ul>
-                        {% for message in newsletter.messages.all %}
-                            <li>
-                                <p><b>{{ message.subject }}</b></p>
-                                <p>{{ message.body }}</p>
-                            </li>
-                            {% empty %}
-                            <li>В этой рассылке нет сообщений.</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 d-flex justify-content-between">
-                    <div>
-                        <a href="{% url 'app_newsletter:newsletter_update' pk=object.pk %}" class="btn btn-warning"
-                           role="button">
-                            Редактировать
-                        </a>
-                    </div>
-                    <div>
-                        <a href="{% url 'app_newsletter:newsletter_delete' pk=object.pk %}" class="btn btn-danger"
-                           role="button">
-                            Удалить
-                        </a>
-                    </div>
-                </div>
+            <div>
+                <a href="{% url 'app_newsletter:newsletter_delete' pk=object.pk %}" class="btn btn-danger"
+                   role="button">
+                    Удалить
+                </a>
             </div>
         </div>
-    </section>
+    </div>
 {% endblock %}

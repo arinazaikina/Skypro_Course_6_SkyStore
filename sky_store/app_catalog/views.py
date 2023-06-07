@@ -8,6 +8,8 @@ from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import FormView, TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from permissions.authenticate import AuthenticatedAccessMixin
+from permissions.user_permission import CreatorAccessMixin
 from .forms import FeedbackForm, ProductForm, ProductVersionFormSet
 from .models import Product, Category, CompanyContact
 from .services import FeedbackServices
@@ -68,7 +70,7 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(AuthenticatedAccessMixin, CreateView):
     """
     Представление для создания нового товара.
     """
@@ -80,7 +82,10 @@ class ProductCreateView(CreateView):
         Обрабатывает форму, если она валидна,
         сохраняет товар и перенаправляет на страницу деталей товара.
         """
-        product = form.save()
+        product = form.save(commit=False)
+        product.created_by = self.request.user
+        product.save()
+
         messages.success(self.request, 'Товар успешно добавлен')
         return HttpResponseRedirect(reverse('app_catalog:product_detail', args=[product.id]))
 
@@ -94,7 +99,7 @@ class ProductCreateView(CreateView):
         return context
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(CreatorAccessMixin, UpdateView):
     """
     Представление для редактирования существующего товара.
     """
@@ -140,7 +145,7 @@ class ProductUpdateView(UpdateView):
             return ProductVersionFormSet(instance=self.object)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(CreatorAccessMixin, DeleteView):
     """
     Представление для удаления существующего товара.
     """
