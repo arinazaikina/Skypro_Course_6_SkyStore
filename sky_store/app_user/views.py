@@ -177,7 +177,7 @@ def logout_user(request: HttpRequest) -> HttpResponseRedirect:
     return redirect(to='app_user:login')
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(AuthenticatedAccessMixin, UpdateView):
     """
     Представление для редактирования профиля пользователя
     """
