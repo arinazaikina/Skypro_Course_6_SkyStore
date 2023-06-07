@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ action }} рассылку
+{% endblock %}
+
+{% block content %}
+    <section class="main-content">
+        <div class="container">
+            <h2>{{ action }} рассылку</h2>
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <input type="submit" class="btn btn-success" value="{{ action }}">
+            </form>
+        </div>
+    </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#id_clients').prepend('<option value="all">Выбрать все</option>');
+
+            $('#id_clients').on('click', function (e) {
+                if ($(e.target).val() == 'all') {
+                    e.preventDefault();
+                    $(this).find('option').prop('selected', $(e.target).prop('selected'));
+                    $(e.target).prop('selected', false);
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,7 +1,8 @@
 from django import forms
-from django.core.validators import RegexValidator, MinValueValidator
+from django.core.validators import RegexValidator
+from django.forms import inlineformset_factory, BaseInlineFormSet
 
-from app_catalog.models import Category
+from .models import Product, Version
 
 
 class FeedbackForm(forms.Form):
@@ -39,47 +40,113 @@ class FeedbackForm(forms.Form):
     )
 
 
-class ProductForm(forms.Form):
-    name = forms.CharField(
-        max_length=100,
-        label='Название',
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Введите название товара',
-        }),
-    )
+class ProductForm(forms.ModelForm):
+    """
+    Форма для создания товара
+    """
+    FORBIDDEN_WORDS = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
 
-    description = forms.CharField(
-        label='Описание',
-        widget=forms.Textarea(attrs={
-            'class': 'form-control',
-            'placeholder': 'Введите описание товара',
-        }),
-    )
+    def __init__(self, *args, **kwargs) -> None:
+        """
+        Инициализирует форму и добавляет CSS-классы и
+        плейсхолдеры для полей формы.
+        """
+        super().__init__(*args, **kwargs)
 
-    image = forms.ImageField(
-        label='Изображение (превью)',
-        required=False,
-        widget=forms.ClearableFileInput(attrs={
-            'class': 'form-control-file',
-        })
-    )
+        for field_name, field in self.fields.items():
+            if field_name == 'image':
+                field.widget.attrs['class'] = 'form-control-file'
+            else:
+                field.widget.attrs['class'] = 'form-control'
 
-    category = forms.ModelChoiceField(
-        label='Категория',
-        queryset=Category.get_all_categories(),
-        widget=forms.Select(attrs={
-            'class': 'form-control',
+        self.fields['name'].widget.attrs['placeholder'] = 'Введите название товара'
+        self.fields['description'].widget.attrs['placeholder'] = 'Введите описание товара'
 
-        })
-    )
+    def clean_name(self) -> str:
+        """
+        Валидация названия продукта.
+        Проверяет наличие запрещенных слов в названии.
 
-    price = forms.DecimalField(
-        label='Цена',
-        max_digits=10,
-        decimal_places=2,
-        validators=[MinValueValidator(1, message='Цена должна быть больше 0')],
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-        })
-    )
+        :return: Очищенное название продукта.
+        :raises: forms.ValidationError, если название содержит запрещенное слово.
+        """
+        name = self.cleaned_data['name']
+        for word in self.FORBIDDEN_WORDS:
+            if word.lower() in name.lower():
+                raise forms.ValidationError(f"Название содержит запрещенное слово: {word}")
+        return name
+
+    def clean_description(self) -> str:
+        """
+        Валидация описания продукта.
+        Проверяет наличие запрещенных слов в описании.
+
+        :return: Очищенное описание продукта.
+        :raises: forms.ValidationError, если описание содержит запрещенное слово.
+        """
+        description = self.cleaned_data['description']
+        for word in self.FORBIDDEN_WORDS:
+            if word.lower() in description.lower():
+                raise forms.ValidationError(f"Описание содержит запрещенное слово: {word}")
+        return description
+
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'image', 'category', 'price']
+
+
+class VersionForm(forms.ModelForm):
+    """
+    Форма для создания версии
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        """
+        Инициализирует форму и добавляет CSS-классы и
+        плейсхолдеры для полей формы.
+        """
+        super().__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            if field_name != 'is_current_version':
+                field.widget.attrs['class'] = 'form-control'
+
+        self.fields['version_number'].widget.attrs['placeholder'] = 'Введите номер версии'
+        self.fields['version_name'].widget.attrs['placeholder'] = 'Введите название версии'
+
+    class Meta:
+        model = Version
+        fields = ['version_number', 'version_name', 'is_current_version']
+
+
+class VersionFormSet(BaseInlineFormSet):
+    """
+    Класс, описывающий формсет для версий продукта.
+    Наследуется от BaseInlineFormSet Django.
+    """
+
+    def clean(self):
+        """
+        Проверяет, что выбрана только одна активная версия продукта.
+        """
+        super().clean()
+        current_version_count = 0
+        for form in self.forms:
+            if not form.is_valid():
+                return
+            if form.cleaned_data and form.cleaned_data.get('is_current_version'):
+                current_version_count += 1
+
+        if current_version_count > 1:
+            raise forms.ValidationError(
+                'Может быть только одна активная версия продукта. Пожалуйста, выберите только одну активную версию.'
+            )
+
+
+ProductVersionFormSet = inlineformset_factory(
+    parent_model=Product,
+    model=Version,
+    form=VersionForm,
+    formset=VersionFormSet,
+    extra=1
+)

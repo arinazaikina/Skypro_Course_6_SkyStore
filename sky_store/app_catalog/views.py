@@ -1,11 +1,14 @@
+from typing import Dict, Any
+
 from django.contrib import messages
+from django.db.models import QuerySet
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import FormView, TemplateView, ListView, DetailView
+from django.views.generic import FormView, TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from .forms import FeedbackForm, ProductForm
+from .forms import FeedbackForm, ProductForm, ProductVersionFormSet
 from .models import Product, Category, CompanyContact
 from .services import FeedbackServices
 
@@ -21,16 +24,31 @@ class HomePageView(TemplateView):
 
 
 class ProductListView(ListView):
+    """
+    Представление для списка товаров.
+    Настроена пагинация.
+    На одной странице отображается 4 товара.
+    """
     context_object_name = 'products'
     paginate_by = 4
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[Product]:
+        """
+        Получает и возвращает queryset товаров в зависимости
+        от выбранной категории или всех товаров.
+        """
         category_id = self.request.GET.get('category', None)
         if category_id:
-            return Product.get_products_by_category(category_id=category_id)
-        return Product.get_all_products()
+            queryset = Product.get_products_by_category(category_id=category_id)
+        else:
+            queryset = Product.get_all_products()
+        return queryset
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
+        """
+        Возвращает контекст данных для шаблона списка товаров,
+        включая категории и текущую выбранную категорию.
+        """
         context = super().get_context_data(**kwargs)
         category_id = self.request.GET.get('category')
         context['categories'] = Category.get_all_categories()
@@ -43,26 +61,102 @@ class ProductListView(ListView):
 
 
 class ProductDetailView(DetailView):
+    """
+    Представление для отображения деталей товара.
+    """
     model = Product
     context_object_name = 'product'
 
 
-class CreateProduct(FormView):
+class ProductCreateView(CreateView):
+    """
+    Представление для создания нового товара.
+    """
+    model = Product
     form_class = ProductForm
-    template_name = 'app_catalog/create_product.html'
 
-    def form_valid(self, form) -> HttpResponseRedirect:
-        image = form.cleaned_data['image'] if form.cleaned_data['image'] else None
-        product = Product.create_product(
-            name=form.cleaned_data.get('name'),
-            description=form.cleaned_data.get('description'),
-            image=image,
-            category=form.cleaned_data.get('category'),
-            price=form.cleaned_data.get('price')
-        )
-
+    def form_valid(self, form: ProductForm) -> HttpResponseRedirect:
+        """
+        Обрабатывает форму, если она валидна,
+        сохраняет товар и перенаправляет на страницу деталей товара.
+        """
+        product = form.save()
         messages.success(self.request, 'Товар успешно добавлен')
         return HttpResponseRedirect(reverse('app_catalog:product_detail', args=[product.id]))
+
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
+        """
+        Получает и возвращает контекст данных для шаблона создания товара,
+        включая информацию о действии.
+        """
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'Создать'
+        return context
+
+
+class ProductUpdateView(UpdateView):
+    """
+    Представление для редактирования существующего товара.
+    """
+    model = Product
+    form_class = ProductForm
+
+    def form_valid(self, form: ProductForm) -> HttpResponseRedirect:
+        """
+        Обрабатывает форму, если она валидна, сохраняет товар и версии товара и
+        перенаправляет на страницу редактирования товара.
+        """
+        product = form.save()
+        context = self.get_context_data()
+        versions = context.get('versions')
+
+        if versions.is_valid():
+            versions.instance = product
+            versions.save()
+            messages.success(self.request, 'Товар обновлён')
+            return HttpResponseRedirect(reverse('app_catalog:update_product', args=[product.id]))
+        else:
+            error_message = versions.non_form_errors()
+            messages.error(self.request, error_message)
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        """
+        Возвращает контекст данных для шаблона редактирования товара,
+        включая формсет версий и информацию о действии.
+        """
+        context = super().get_context_data(**kwargs)
+        context['versions'] = self.get_versions_formset()
+        context['action'] = 'Редактировать'
+        return context
+
+    def get_versions_formset(self) -> ProductVersionFormSet:
+        """
+        Возвращает экземпляр формсета версий товара.
+        """
+        if self.request.POST:
+            return ProductVersionFormSet(self.request.POST, instance=self.object)
+        else:
+            return ProductVersionFormSet(instance=self.object)
+
+
+class ProductDeleteView(DeleteView):
+    """
+    Представление для удаления существующего товара.
+    """
+    model = Product
+    success_url = reverse_lazy('app_catalog:product_list')
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Удаляет товар и перенаправляет на страницу списка товаров.
+        """
+        self.object = self.get_object()
+
+        message = f'Товар "{self.object.title}" удалён'
+        messages.success(request, message)
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class ContactsView(FormView):

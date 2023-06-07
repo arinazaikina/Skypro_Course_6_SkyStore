@@ -1,6 +1,6 @@
 from django.urls import path
 
-from app_blog.apps import AppBlogConfig
+from .apps import AppBlogConfig
 from .views import (
     PostListView,
     PostDetailView,
