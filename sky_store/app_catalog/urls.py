@@ -9,7 +9,9 @@ from .views import (
     ProductUpdateView,
     ProductDeleteView,
     ContactsView,
-    SuccessFeedbackView
+    SuccessFeedbackView,
+    UserProductListView,
+    UnpublishedProductListView
 )
 
 app_name = AppConfig.__name__
@@ -17,6 +19,8 @@ app_name = AppConfig.__name__
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('products/', ProductListView.as_view(), name='product_list'),
+    path('user/products/', UserProductListView.as_view(), name='user_products'),
+    path('products/unpublished/', UnpublishedProductListView.as_view(), name='unpublished_products'),
     path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
     path('product/create/', ProductCreateView.as_view(), name='create_product'),
     path('product/update/<int:pk>/', ProductUpdateView.as_view(), name='update_product'),

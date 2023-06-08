@@ -56,10 +56,11 @@ class ProductForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             if field_name == 'image':
                 field.widget.attrs['class'] = 'form-control-file'
-            else:
+            elif field_name != 'is_published':
                 field.widget.attrs['class'] = 'form-control'
 
-        self.fields['name'].widget.attrs['placeholder'] = 'Введите название товара'
+        if 'name' in self.fields:
+            self.fields['name'].widget.attrs['placeholder'] = 'Введите название товара'
         self.fields['description'].widget.attrs['placeholder'] = 'Введите описание товара'
 
     def clean_name(self) -> str:
@@ -92,7 +93,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'image', 'category', 'price']
+        fields = ['name', 'description', 'image', 'category', 'price', 'is_published']
 
 
 class VersionForm(forms.ModelForm):
@@ -150,3 +151,29 @@ ProductVersionFormSet = inlineformset_factory(
     formset=VersionFormSet,
     extra=1
 )
+
+
+class ProductCreatorForm(ProductForm):
+    """
+    Форма для создания или редактирования товара его создателем.
+
+    Создатель может изменять все поля, кроме статуса публикации (is_published).
+    Включает проверку на запрещенные слова в названии и описании.
+    """
+
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'image', 'category', 'price']
+
+
+class ProductModeratorForm(ProductForm):
+    """
+    Форма для редактирования товара модератором.
+
+    Модератор может изменять описание, категорию и статус публикации (is_published).
+    Включает проверку на запрещенные слова в описании.
+    """
+
+    class Meta:
+        model = Product
+        fields = ['description', 'category', 'is_published']

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.http import HttpRequest
 
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, UserUpdateForm
 from .models import CustomUser
 
 
@@ -16,10 +16,11 @@ class CustomUserAdmin(UserAdmin):
     """
     model = CustomUser
     list_display = ['pk', 'email', 'first_name', 'last_name', 'email_verified', 'is_active']
+    list_display_links = ['pk', 'email']
     ordering = ('email',)
 
     add_form = UserRegistrationForm
-    # form = UserUpdateForm
+    form = UserUpdateForm
 
     def get_readonly_fields(self, request: HttpRequest, obj: CustomUser = None) -> tuple:
         """
@@ -42,13 +43,13 @@ class CustomUserAdmin(UserAdmin):
             fieldsets = (
                 (None, {'fields': ('email', 'password1', 'password2')}),
                 ('Электронная почта', {'fields': ('email_verified',)}),
-                ('Персональная информация', {'fields': ('first_name', 'last_name', 'phone', 'country')})
+                ('Персональная информация', {'fields': ('first_name', 'last_name', 'phone', 'country', 'avatar')})
             )
         else:
             fieldsets = (
                 (None, {'fields': ('email',)}),
                 ('Электронная почта', {'fields': ('email_verified',)}),
-                ('Персональная информация', {'fields': ('first_name', 'last_name', 'phone', 'country')}),
+                ('Персональная информация', {'fields': ('first_name', 'last_name', 'phone', 'country', 'avatar')}),
                 ('Разрешения', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
                 ('Важные даты', {'fields': ('last_login', 'date_joined')})
             )

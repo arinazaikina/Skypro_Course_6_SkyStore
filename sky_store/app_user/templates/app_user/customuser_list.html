@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {{ title }}
+    Пользователи сервиса
 {% endblock %}
 
 {% block header %}
-    {{ header }}
+    Список пользователей
 {% endblock %}
 
 {% block content %}
@@ -19,12 +19,8 @@
                     <th scope="col">Электронная почта</th>
                     <th scope="col">Имя</th>
                     <th scope="col">Фамилия</th>
-                    <th scope="col">Отчество</th>
-                    <th scope="col">Email подтверждён</th>
-                    <th scope="col">Заблокировать</th>
-                    {% if request.user.is_superuser %}
-                        <th scope="col">Сделать менеджером</th>
-                    {% endif %}
+                    <th scope="col">Сделать модератором</th>
+                    <th scope="col">Сделать контент менеджером</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,23 +30,19 @@
                         <th>{{ object.email }}</th>
                         <td>{{ object.first_name }}</td>
                         <td>{{ object.last_name }}</td>
-                        <td>{{ object.middle_name|default:"-" }}</td>
-                        <td>{% if object.email_verified %}+{% else %}-{% endif %}</td>
                         <td>
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input"
-                                       {% if not object.is_active %}checked{% endif %}
-                                       value="{{ object.pk }}" name="box_active">
+                                       {% if object.id in moderator_ids %}checked{% endif %}
+                                       value="{{ object.pk }}" name="box_moderator">
                             </div>
                         </td>
                         <td>
-                            {% if request.user.is_superuser %}
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input"
-                                           {% if object.is_staff %}checked{% endif %}
-                                           value="{{ object.pk }}" name="box_manager">
-                                </div>
-                            {% endif %}
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"
+                                       {% if object.id in content_manager_ids %}checked{% endif %}
+                                       value="{{ object.pk }}" name="box_content_manager">
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
