@@ -110,6 +110,9 @@ python manage.py creategroups
 
 ## Шаг 7. Загрузка данных с помощью фикстур
 ```bash
+python manage.py loaddata auth_group_data.json
+```
+```bash
 python manage.py loaddata app_user_data.json
 ```
 ```bash
