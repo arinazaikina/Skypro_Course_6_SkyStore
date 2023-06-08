@@ -1,26 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	Публикации
+    Публикации
+{% endblock %}
+
+{% block header %}
+    Публикации
 {% endblock %}
 
 {% block content %}
-	<section class="main-content">
-		<div class="container">
-			<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-				<h1 class="display-4">
-					Блог
-				</h1>
-			</div>
-			{% if object_list %}
-				<div class="row">
-					{% for object in object_list %}
-						{% include 'app_blog/includes/post_card.html' %}
-					{% endfor %}
-				</div>
-			{% else %}
-				<h3>Пока здесь пусто</h3>
-			{% endif %}
-		</div>
-	</section>
+    {% if object_list %}
+        <div class="row">
+            {% for object in object_list %}
+                {% include 'app_blog/includes/post_card.html' %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <h3>Пока здесь пусто</h3>
+    {% endif %}
 {% endblock %}

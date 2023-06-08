@@ -4,15 +4,14 @@
     Удалить товар
 {% endblock %}
 
+{% block header %}
+    Удалить товар
+{% endblock %}
+
 {% block content %}
-    <section class="main-content">
-        <div class="container">
-            <h2>Удалить товар</h2>
-            <form method="post" enctype="multipart/form-data" novalidate>
-                {% csrf_token %}
-                <p>Уверены, что хотите удалить товар "{{ product.name }}"?</p>
-                <input type="submit" class="btn btn-outline-danger" value="Уверен">
-            </form>
-        </div>
-    </section>
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <p>Уверены, что хотите удалить товар "{{ product.name }}"?</p>
+        <input type="submit" class="btn btn-outline-danger" value="Уверен">
+    </form>
 {% endblock %}

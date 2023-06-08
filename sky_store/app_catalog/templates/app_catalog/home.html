@@ -1,25 +1,24 @@
 {% extends "base.html" %}
 
 {% block title %}
-	Главная
+    Главная
+{% endblock %}
+
+{% block header %}
+    SkyStore
 {% endblock %}
 
 {% block content %}
-	<section class="main-content">
-		<div class="container">
-			<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-				<h1 class="display-4">SkyStore</h1>
-				<p class="lead">Покоряй склоны с уверенностью и стилем!</p>
-			</div>
-			{% if products %}
-				<div class="row">
-					{% for product in products %}
-						{% include 'app_catalog/includes/item_card.html' %}
-					{% endfor %}
-				</div>
-			{% else %}
-				<h3>Пока товаров нет</h3>
-			{% endif %}
-		</div>
-	</section>
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <p class="lead">Покоряй склоны с уверенностью и стилем!</p>
+    </div>
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                {% include 'app_catalog/includes/item_card.html' %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <h3>Пока товаров нет</h3>
+    {% endif %}
 {% endblock %}

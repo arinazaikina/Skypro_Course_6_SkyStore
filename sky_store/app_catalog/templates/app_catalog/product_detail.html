@@ -3,38 +3,39 @@
 {% load media_filter %}
 
 {% block title %}
-    {{ product.title }}
+    {{ product.name }}
+{% endblock %}
+
+{% block header %}
+    {{ product.name }}
 {% endblock %}
 
 {% block content %}
-    <section class="main-content">
-        <div class="container">
-            <div class="row product-data">
-                <div class="col-lg-12">
-                    <h1>{{ product.name }}</h1>
-                    <p class="item-price">{{ product.price }} ₽</p>
-                    <p>{{ product.description }}</p>
-                    <div>
-                        <img src="{{ product.image|mediapath }}" alt="{{ product.name }}">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 d-flex justify-content-between">
-                    <div>
-                        <a href="{% url 'app_catalog:update_product' pk=product.pk %}" class="btn btn-warning m-4"
-                           role="button">
-                            Редактировать товар
-                        </a>
-                    </div>
-                    <div>
-                        <a href="{% url 'app_catalog:delete_product' pk=product.pk %}" class="btn btn-danger m-4"
-                           role="button">
-                            Удалить товар
-                        </a>
-                    </div>
-                </div>
+    <div class="row product-data">
+        <div class="col-lg-12">
+            <p class="item-price">{{ product.price }} ₽</p>
+            <p>{{ product.description }}</p>
+            <div>
+                <img src="{{ product.image|mediapath }}" alt="{{ product.name }}">
             </div>
         </div>
-    </section>
+    </div>
+    <div class="row">
+        {% if product.created_by == request.user %}
+            <div class="col-lg-12 d-flex justify-content-between">
+                <div>
+                    <a href="{% url 'app_catalog:update_product' pk=product.pk %}" class="btn btn-warning m-4"
+                       role="button">
+                        Редактировать товар
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'app_catalog:delete_product' pk=product.pk %}" class="btn btn-danger m-4"
+                       role="button">
+                        Удалить товар
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

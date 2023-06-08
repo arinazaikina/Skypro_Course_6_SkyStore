@@ -1,28 +1,27 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	{{ action }} клиента
+    {{ action }} клиента
+{% endblock %}
+
+{% block header %}
+    {{ action }} клиента
 {% endblock %}
 
 {% block content %}
-	<section class="main-content">
-		<div class="container">
-			<h2>{{ action }} клиента</h2>
-			<form method="post" enctype="multipart/form-data" novalidate>
-				{% csrf_token %}
-				{% for field in form %}
-					<div class="form-group">
-						{{ field.label_tag }}
-						{{ field }}
-						{% for error in field.errors %}
-							<div class="invalid-feedback d-block">
-								{{ error }}
-							</div>
-						{% endfor %}
-					</div>
-				{% endfor %}
-				<input type="submit" class="btn btn-success" value="{{ action }}">
-			</form>
-		</div>
-	</section>
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <input type="submit" class="btn btn-success" value="{{ action }}">
+    </form>
 {% endblock %}

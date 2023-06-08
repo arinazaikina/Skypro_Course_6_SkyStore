@@ -1,43 +1,38 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	{{ object }}
+    {{ object }}
+{% endblock %}
+
+{% block header %}
+    {{ object }}
 {% endblock %}
 
 {% block content %}
-	<section class="main-content">
-		<div class="container">
-			<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-				<h1 class="display-4">
-					{{ object }}
-				</h1>
-			</div>
-			<div class="row">
-				<div class="col-lg-12">
-					<p><b>Имя: </b>{{ object.first_name }}</p>
-					<p><b>Фамилия: </b>{{ object.last_name }}</p>
-					{% if object.middle_name %}
-						<p><b>Отчество: </b>{{ object.last_name }}</p>
-					{% endif %}
-					<p><b>Электронная почта: </b>{{ object.email }}</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-12 d-flex justify-content-between">
-					<div>
-						<a href="{% url 'app_newsletter:client_update' pk=object.pk %}" class="btn btn-warning"
-						   role="button">
-							Редактировать
-						</a>
-					</div>
-					<div>
-						<a href="{% url 'app_newsletter:client_delete' pk=object.pk %}" class="btn btn-danger"
-						   role="button">
-							Удалить
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+    <div class="row">
+        <div class="col-lg-12">
+            <p><b>Имя: </b>{{ object.first_name }}</p>
+            <p><b>Фамилия: </b>{{ object.last_name }}</p>
+            {% if object.middle_name %}
+                <p><b>Отчество: </b>{{ object.last_name }}</p>
+            {% endif %}
+            <p><b>Электронная почта: </b>{{ object.email }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 d-flex justify-content-between">
+            <div>
+                <a href="{% url 'app_newsletter:client_update' pk=object.pk %}" class="btn btn-warning"
+                   role="button">
+                    Редактировать
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'app_newsletter:client_delete' pk=object.pk %}" class="btn btn-danger"
+                   role="button">
+                    Удалить
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

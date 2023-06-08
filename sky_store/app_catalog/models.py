@@ -3,6 +3,8 @@ from typing import Union, Optional
 from django.core.validators import MinValueValidator
 from django.db import models
 
+from app_user.models import CustomUser
+
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -78,6 +80,7 @@ class Product(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Кем создан', default=1)
 
     class Meta:
         db_table = 'product'

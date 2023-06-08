@@ -4,57 +4,55 @@
     {{ action }} товара
 {% endblock %}
 
-{% block content %}
-    <section class="main-content">
-        <div class="container">
-            <h2>{{ action }} товар</h2>
-            <form method="post" enctype="multipart/form-data" novalidate>
-                {% csrf_token %}
-                <div class="row">
+{% block header %}
+    {{ action }} товара
+{% endblock %}
 
-                    <div class="col-md-6">
-                        {% for field in form %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6">
+                {{ versions.management_form }}
+                {% for version_form in versions %}
+                    <div class="border p-3 mb-3">
+                        {% for hidden_field in version_form.hidden_fields %}
+                            {{ hidden_field }}
+                        {% endfor %}
+                        {% for visible_field in version_form.visible_fields %}
                             <div class="form-group">
-                                {{ field.label_tag }}
-                                {{ field }}
-                                {% for error in field.errors %}
+                                {{ visible_field.label_tag }}
+                                {{ visible_field }}
+                                {% for error in visible_field.errors %}
                                     <div class="invalid-feedback d-block">
                                         {{ error }}
                                     </div>
                                 {% endfor %}
                             </div>
                         {% endfor %}
-                    </div>
-
-                    <div class="col-md-6">
-                        {{ versions.management_form }}
-                        {% for version_form in versions %}
-                            <div class="border p-3 mb-3">
-                                {% for hidden_field in version_form.hidden_fields %}
-                                    {{ hidden_field }}
-                                {% endfor %}
-                                {% for visible_field in version_form.visible_fields %}
-                                    <div class="form-group">
-                                        {{ visible_field.label_tag }}
-                                        {{ visible_field }}
-                                        {% for error in visible_field.errors %}
-                                            <div class="invalid-feedback d-block">
-                                                {{ error }}
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                {% endfor %}
-                                {% if version_form.non_field_errors %}
-                                    <div class="alert alert-danger" role="alert">
-                                        {{ version_form.non_field_errors }}
-                                    </div>
-                                {% endif %}
+                        {% if version_form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ version_form.non_field_errors }}
                             </div>
-                        {% endfor %}
+                        {% endif %}
                     </div>
-                </div>
-                <input type="submit" class="btn btn-success" value="{{ action }}">
-            </form>
+                {% endfor %}
+            </div>
         </div>
-    </section>
+        <input type="submit" class="btn btn-success" value="{{ action }}">
+    </form>
 {% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block header %}
+    {{ header }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10 mt-5 pt-5">
+            <div class="row z-depth-3">
+                <div class="col-sm-4 rounded-left">
+                    <div class="card-block text-center">
+                        <img src="{{ user.avatar.url }}"
+                             class="img-thumbnail">
+                        <p><a href="{% url 'app_user:profile_update' %}">Редактировать профиль</a></p>
+                    </div>
+                </div>
+                <div class="col-sm-8 bg-white rounded-right">
+                    <h3 class="mt-3 text-center">{{ request.user }}</h3>
+                    <hr class="badge-primary">
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                <strong>Имя: </strong> {% firstof request.user.first_name '-' %}
+                            </p>
+                            <p>
+                                <strong>Фамилия: </strong> {% firstof request.user.last_name '-' %}
+                            </p>
+                            <p>
+                                <strong>E-mail: </strong> {% firstof request.user.email '-' %}
+                            </p>
+                            <p>
+                                <strong>Телефон: </strong> {% firstof request.user.phone '-' %}
+                            </p>
+                            <p>
+                                <strong>Страна: </strong> {% firstof request.user.country '-' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
