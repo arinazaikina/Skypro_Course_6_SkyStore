@@ -13,7 +13,7 @@ cd Skypro_Course_6_SkyStore
 ```
 5. Переключиться на ветку разработки
 ```bash
-git checkout hw_23.1
+git checkout hw_23.2
 ```
 
 ## Шаг 2. Установка зависимостей
