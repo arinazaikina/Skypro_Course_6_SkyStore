@@ -5,6 +5,8 @@ from django.urls import reverse, reverse_lazy
 from slugify import slugify
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from permissions.authenticate import AuthenticatedAccessMixin
+from permissions.user_permission import CombinedAccessMixin
 from .forms import PostCreateForm
 from .models import Post
 
@@ -27,7 +29,7 @@ class PostDetailView(DetailView):
         return obj
 
 
-class PostCreateView(CreateView):
+class PostCreateView(AuthenticatedAccessMixin, CreateView):
     model = Post
     form_class = PostCreateForm
 
@@ -44,7 +46,7 @@ class PostCreateView(CreateView):
         return context
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(CombinedAccessMixin, UpdateView):
     model = Post
     form_class = PostCreateForm
 
@@ -61,7 +63,7 @@ class PostUpdateView(UpdateView):
         return context
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(CombinedAccessMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('app_blog:post_list')
 

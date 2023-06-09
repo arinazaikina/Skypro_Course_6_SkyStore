@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load media_filter %}
+{% load user_filters %}
 
 {% block title %}
     {{ product.name }}
@@ -21,21 +22,23 @@
         </div>
     </div>
     <div class="row">
-        {% if product.created_by == request.user %}
-            <div class="col-lg-12 d-flex justify-content-between">
+        <div class="col-lg-12 d-flex justify-content-between">
+            {% if product.created_by == request.user or request.user|has_group:"Модераторы" %}
                 <div>
                     <a href="{% url 'app_catalog:update_product' pk=product.pk %}" class="btn btn-warning m-4"
                        role="button">
                         Редактировать товар
                     </a>
                 </div>
+            {% endif %}
+            {% if product.created_by == request.user %}
                 <div>
                     <a href="{% url 'app_catalog:delete_product' pk=product.pk %}" class="btn btn-danger m-4"
                        role="button">
                         Удалить товар
                     </a>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

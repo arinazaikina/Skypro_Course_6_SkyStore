@@ -1,7 +1,9 @@
 import logging
+from typing import Dict, Any
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.models import Group
 from django.contrib.auth.views import (
     LoginView,
     PasswordResetView,
@@ -9,6 +11,7 @@ from django.contrib.auth.views import (
     PasswordResetConfirmView,
     PasswordResetCompleteView
 )
+from django.db.models import QuerySet
 from django.forms import Form
 from django.http import HttpRequest, HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect
@@ -16,9 +19,10 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, UpdateView, DetailView, ListView
 
 from permissions.authenticate import AuthenticatedAccessMixin
+from permissions.user_permission import AdminAccessMixin
 from .forms import UserRegistrationForm, UserLoginForm, UserUpdateForm, CustomPasswordResetForm, CustomSetPasswordForm
 from .models import CustomUser
 from .services import EmailConfirmationService, email_token_generator
@@ -253,3 +257,61 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     Наследуется от Django PasswordResetCompleteView.
     """
     template_name = 'app_user/password_reset_complete.html'
+
+
+class UserListView(AdminAccessMixin, ListView):
+    """
+    Представление для отображения списка пользователей сервиса.
+    Наследуется от AdminAccessMixin и Django-класса ListView.
+    Класс AdminAccessMixin обеспечивает доступ к представлению
+    только для администраторов.
+    """
+    model = CustomUser
+    paginate_by = 5
+
+    def get_queryset(self) -> QuerySet[CustomUser]:
+        """
+        Возвращает queryset со всеми пользователями
+        кроме администратора.
+        """
+        queryset = super().get_queryset()
+        return queryset.exclude(is_superuser=True)
+
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
+        """
+        Возвращает контекст для шаблона.
+        Добавляет список идентификаторов модераторов и контент менеджеров.
+        """
+        context = super().get_context_data(**kwargs)
+        moderator_group = Group.objects.get(name='Модераторы')
+        content_manager_group = Group.objects.get(name='Контент менеджеры')
+        context['moderator_ids'] = list(moderator_group.user_set.values_list('id', flat=True))
+        context['content_manager_ids'] = list(content_manager_group.user_set.values_list('id', flat=True))
+        return context
+
+    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponseRedirect:
+        """
+        Обрабатывает POST-запрос при обновлении групп пользователей.
+
+        Метод получает список идентификаторов пользователей, выбранных
+        в форме для каждой группы (модераторы, контент менеджеры).
+        Затем он очищает текущих пользователей в группах "Модераторы" и "Контент менеджеры".
+        После этого он добавляет выбранных пользователей в соответствующие группы.
+        """
+
+        moderator_user_ids = request.POST.getlist('box_moderator')
+        moderator_user_ids = [int(id) for id in moderator_user_ids]
+
+        content_manager_user_ids = request.POST.getlist('box_content_manager')
+        content_manager_user_ids = [int(id) for id in content_manager_user_ids]
+
+        moderator_group = Group.objects.get(name='Модераторы')
+        content_manager_group = Group.objects.get(name='Контент менеджеры')
+
+        moderator_group.user_set.clear()
+        content_manager_group.user_set.clear()
+
+        moderator_group.user_set.add(*CustomUser.objects.filter(id__in=moderator_user_ids))
+        content_manager_group.user_set.add(*CustomUser.objects.filter(id__in=content_manager_user_ids))
+
+        return HttpResponseRedirect(self.request.path_info)

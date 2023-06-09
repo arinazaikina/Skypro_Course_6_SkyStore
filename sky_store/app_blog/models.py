@@ -2,6 +2,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.db import models
 
+from app_user.models import CustomUser
+
 
 class Post(models.Model):
     """
@@ -14,6 +16,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     published = models.BooleanField(verbose_name='Опубликован', default=True)
     views_count = models.PositiveIntegerField(default=0, verbose_name='Количество просмотров')
+    created_by = models.ForeignKey(CustomUser, on_delete=models.SET_DEFAULT, default=1, verbose_name='Кем создан')
 
     class Meta:
         verbose_name = 'Пост'

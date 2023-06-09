@@ -81,6 +81,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Кем создан', default=1)
+    is_published = models.BooleanField(verbose_name='Опубликован', default=False)
 
     class Meta:
         db_table = 'product'
@@ -152,6 +153,42 @@ class Product(models.Model):
         Если активная версия не найдена, возвращает None
         """
         return self.version.filter(is_current_version=True).first()
+
+    @classmethod
+    def get_published_products_by_category(cls, category_id: int) -> models.QuerySet:
+        """
+        Возвращает опубликованные товары определенной категории.
+        :param category_id: Идентификатор категории товаров
+        :return: QuerySet с опубликованными товарами выбранной категории
+        """
+        return cls.objects.filter(category_id=category_id, is_published=True)
+
+    @classmethod
+    def get_all_published_products(cls) -> models.QuerySet:
+        """
+        Возвращает все опубликованные товары.
+
+        :return: QuerySet с опубликованными товарами
+        """
+        return cls.objects.filter(is_published=True)
+
+    @classmethod
+    def get_products_by_user(cls, user_id: int) -> models.QuerySet:
+        """
+        Возвращает товары, созданные указанным пользователем.
+        :param user_id: Идентификатор пользователя
+        :return: QuerySet c товарами выбранного пользователя
+        """
+        return cls.objects.filter(created_by_id=user_id)
+
+    @classmethod
+    def get_unpublished_products(cls) -> models.QuerySet:
+        """
+        Возвращает все неопубликованные товары.
+
+        :return: QuerySet с неопубликованными товарами
+        """
+        return cls.objects.filter(is_published=False)
 
 
 class Version(models.Model):

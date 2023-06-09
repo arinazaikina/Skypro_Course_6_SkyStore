@@ -125,14 +125,15 @@
     "model": "app_catalog.product",
     "pk": 21,
     "fields": {
-        "name": "Горные лыжи ELAN!!!",
+        "name": "Горные лыжи ELAN",
         "description": "Elan FX SGJ Plate - это гоночные лыжи серии WorldCup. Уникальный ламинированный цельнодеревянный сердечник Response Frame Wood Core, в котором используется две породы дерева позволяет создавать лыжи с разнообразным распределением жёсткости в зависимости от их назначения. Сердечник заключен между двумя слоями титана благодаря технологии DUAL TI. Такая конструкция обеспечивает максимальный контроль над закантовкой и прогрессивную жёсткость.",
         "image": "products/b0d8aa769a1bdc0cd0f2c2f648137b93.jpeg",
         "category": 15,
         "price": "50690.00",
         "created_at": "2023-05-09T07:37:28.508Z",
-        "updated_at": "2023-05-31T20:05:46.864Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:28:57.347Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -145,8 +146,9 @@
         "category": 14,
         "price": "41510.00",
         "created_at": "2023-05-09T07:39:12.443Z",
-        "updated_at": "2023-06-01T09:42:43.799Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:44.549Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -159,8 +161,9 @@
         "category": 14,
         "price": "34990.00",
         "created_at": "2023-05-09T07:40:48.627Z",
-        "updated_at": "2023-05-09T07:40:48.627Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:49.924Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -173,8 +176,9 @@
         "category": 17,
         "price": "16990.00",
         "created_at": "2023-05-09T07:42:32.978Z",
-        "updated_at": "2023-05-09T09:27:09.223Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:34.085Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -187,8 +191,9 @@
         "category": 18,
         "price": "19990.00",
         "created_at": "2023-05-09T07:43:40.449Z",
-        "updated_at": "2023-05-09T08:07:32.225Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:39.014Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -201,8 +206,9 @@
         "category": 17,
         "price": "6990.00",
         "created_at": "2023-05-09T09:25:14.793Z",
-        "updated_at": "2023-05-09T09:25:14.793Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:15.118Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -215,8 +221,9 @@
         "category": 17,
         "price": "5750.00",
         "created_at": "2023-05-09T12:19:46.444Z",
-        "updated_at": "2023-05-09T12:19:46.444Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:54.588Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -230,7 +237,8 @@
         "price": "5750.00",
         "created_at": "2023-05-09T12:27:48.467Z",
         "updated_at": "2023-05-09T12:27:48.467Z",
-        "created_by": 1
+        "created_by": 1,
+        "is_published": false
     }
 },
 {
@@ -243,8 +251,9 @@
         "category": 18,
         "price": "7590.00",
         "created_at": "2023-05-09T12:32:01.080Z",
-        "updated_at": "2023-05-09T12:32:01.080Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:23.315Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -257,8 +266,9 @@
         "category": 17,
         "price": "25990.00",
         "created_at": "2023-05-09T13:24:34.960Z",
-        "updated_at": "2023-05-09T13:24:34.960Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:09.682Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -271,8 +281,9 @@
         "category": 17,
         "price": "4790.00",
         "created_at": "2023-05-09T13:26:34.506Z",
-        "updated_at": "2023-06-07T11:46:35.208Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:29.596Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
@@ -286,7 +297,8 @@
         "price": "31430.00",
         "created_at": "2023-05-13T09:02:31.814Z",
         "updated_at": "2023-05-13T09:02:31.814Z",
-        "created_by": 1
+        "created_by": 1,
+        "is_published": false
     }
 },
 {
@@ -299,22 +311,24 @@
         "category": 15,
         "price": "43590.00",
         "created_at": "2023-05-31T19:09:41.866Z",
-        "updated_at": "2023-06-01T09:41:50.596Z",
-        "created_by": 1
+        "updated_at": "2023-06-08T19:29:04.397Z",
+        "created_by": 1,
+        "is_published": true
     }
 },
 {
     "model": "app_catalog.product",
     "pk": 42,
     "fields": {
-        "name": "Очки горнолыжные Out Of Shift Mall/Silver+Storm",
+        "name": "Очки горнолыжные Out Of Shift Mall/Silver+Storm!!!",
         "description": "Модель Shift - прокаченная модель для тех, кто любит менять линзы в зависимости от погодных условий, ведь смена линз в этой модели максимально комфортна и быстра. Всего 6 секунд требуется, чтобы заменить одну линзу на другую и зафиксировать ее в оправе - рычаг открывания линзы удобен, но почти не виден - вписан в дизайн маски. Отлично сидит на лице, вентилируется и надежно защищает от ультрафиолета и плохой погоды.",
         "image": "products/default.png",
         "category": 18,
-        "price": "9990.00",
+        "price": "9989.99",
         "created_at": "2023-06-07T18:07:19.363Z",
-        "updated_at": "2023-06-07T18:07:19.363Z",
-        "created_by": 13
+        "updated_at": "2023-06-08T19:30:07.700Z",
+        "created_by": 13,
+        "is_published": true
     }
 },
 {
