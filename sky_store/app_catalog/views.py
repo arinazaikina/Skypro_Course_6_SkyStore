@@ -12,7 +12,7 @@ from permissions.authenticate import AuthenticatedAccessMixin
 from permissions.user_permission import CreatorAccessMixin, ModeratorOrCreatorMixin, ModeratorAccessMixin
 from .forms import FeedbackForm, ProductForm, ProductVersionFormSet
 from .models import Product, Category, CompanyContact
-from .services import FeedbackServices
+from .services import FeedbackServices, get_all_categories
 
 
 class HomePageView(TemplateView):
@@ -20,7 +20,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.get_all_categories()
+        context['categories'] = get_all_categories()
         context['products'] = Product.get_last_products(count=4)
         return context
 
@@ -55,7 +55,7 @@ class ProductListView(ListView):
         """
         context = super().get_context_data(**kwargs)
         category_id = self.request.GET.get('category')
-        context['categories'] = Category.get_all_categories()
+        context['categories'] = get_all_categories()
         if category_id:
             context['category'] = Category.get_category_by_id(category_id=category_id)
         else:
