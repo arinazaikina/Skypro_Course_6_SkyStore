@@ -20,7 +20,6 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = get_all_categories()
         context['products'] = Product.get_last_products(count=4)
         return context
 
