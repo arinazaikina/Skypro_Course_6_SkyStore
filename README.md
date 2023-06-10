@@ -11,10 +11,6 @@ git clone https://github.com/arinazaikina/Skypro_Course_6_SkyStore.git
 ```bash
 cd Skypro_Course_6_SkyStore
 ```
-5. Переключиться на ветку разработки
-```bash
-git checkout hw_23.2
-```
 
 ## Шаг 2. Установка зависимостей
 1. Убедиться, что в системе установлен Python3.x. 
@@ -126,31 +122,31 @@ python manage.py loaddata app_newsletter_data.json
 1. Открыть новое окно терминала
 2. Если виртуальное окружение неактивно, активировать его
 ```bash
-cd .. &&  source venv/bin/activate
+source venv/bin/activate
 ```
 3. Из каталога проекта sky_store запустить celery
 ```bash
-cd sky_store && celery -A config worker --loglevel=info
+celery -A config worker --loglevel=info
 ```
 
 ## Шаг 8. Запуск celery-beat
 1. Открыть новое окно терминала
 2. Если виртуальное окружение неактивно, активировать его
 ```bash
-cd .. &&  source venv/bin/activate
+source venv/bin/activate
 ```
 3. Из каталога проекта sky_store запустить celery
 ```bash
-cd sky_store && celery -A config beat --loglevel=info
+celery -A config beat --loglevel=info
 ```
 
 ## Шаг 9. Запуск сервера Django
 1. Открыть новое окно терминала
 2. Если виртуальное окружение неактивно, активировать его
 ```bash
-cd .. &&  source venv/bin/activate
+source venv/bin/activate
 ```
 3. Из каталога проекта sky_store запустить сервер
 ```bash
-cd sky_store && python manage.py runserver
+python manage.py runserver
 ```
